@@ -13,15 +13,15 @@ To open downloaded project in editor (bear in mind assets are not being pushed a
 There will be a build version in many weeks time.
 
 ## Controls
-WASD - Character Movement
-Spacebar - Jump
-E - Interact
-Mouse - Aim
-LMB - Shoot
-Esc/P - Open Pause Menu
+- WASD - Character Movement
+- Spacebar - Jump
+- E - Interact
+- Mouse - Aim
+- LMB - Shoot
+- Esc/P - Open Pause Menu
 
 ## Credits
-Code is made purely by me with some inspiration from Tutorials / ChatGPT/ Googling solutions to problems.
+Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googling solutions to problems.
 
 ### Tools Used
 - Unity 2023.1.1f1
