@@ -1,4 +1,4 @@
-# MovementShooter
+# Movement Shooter
 Movement Shooter made as a project for my Mastered Bootcamp. This game is a 1st-person shooter with a major emphasis on movement mechanics such as crouch sliding, wall-running and gravity manipulation.
 Please bear in mind that this project is very early in development so many things listed below may not be implemented yet.
 
@@ -10,6 +10,14 @@ To open downloaded project in editor (bear in mind assets are not being pushed a
 4. Navigate to project root folder
 5. Click Open
 
+### Getting project to work with Synty Sci-Fi Space
+To get the project to work with said pack provided you have your own copy.
+1. Follow the above instructions.
+2. Import the Synty Sci-Fi Space Pack
+3. Move the folder created into the Synty Folder
+4. Follow the Synty video tutorial to upgrade to URP (Don't forget to upgrade shaders too) [^1]
+5. Enjoy
+
 There will be a build version in many weeks time.
 
 ## Controls
@@ -18,7 +26,7 @@ There will be a build version in many weeks time.
 - E - Interact
 - Mouse - Aim
 - LMB - Shoot
-- Esc/P - Open Pause Menu
+- P/Esc - Open Pause Menu
 
 ## Credits
 Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googling solutions to problems.
@@ -31,7 +39,9 @@ Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googl
 - Trello (Project Management)
 
 ### Tutorials
-- None yet
+- Upgrading Synty assets to URP [^1]
 
 ### Assets
 - Synty Sci-Fi Space Pack (https://syntystore.com/en-gb/products/polygon-sci-fi-space-pack)
+
+[^1]:https://www.youtube.com/watch?v=KpTK-OraZ-g
