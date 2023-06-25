@@ -42,6 +42,7 @@ Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googl
 - Upgrading Synty assets to URP [^1]
 
 ### Assets
-- Synty Sci-Fi Space Pack (https://syntystore.com/en-gb/products/polygon-sci-fi-space-pack)
+- Synty Sci-Fi Space Pack [^2]
 
-[^1]:https://www.youtube.com/watch?v=KpTK-OraZ-g
+[^1]: Synty Upgrading Asset tutorial https://www.youtube.com/watch?v=KpTK-OraZ-g
+[^2]: Synty Sci-Fi Space Pack https://syntystore.com/en-gb/products/polygon-sci-fi-space-pack
