@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -85,8 +87,28 @@ public class PlayerMovement : MonoBehaviour
 
             }
         }
+        ApplyMovement();
+    }
 
+    //Split update into smaller functions
+    private void CheckInput()
+    {
+        
+    }
+    private void Movement()
+    {
+        
+    }
+
+    private void ApplyMovement()
+    {
         _charController.Move(_move * (moveSpeed * Time.deltaTime));
         _charController.Move(_verticalVelocity*Time.deltaTime);
+    }
+
+    //Use this for wall running etc
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.name);
     }
 }
