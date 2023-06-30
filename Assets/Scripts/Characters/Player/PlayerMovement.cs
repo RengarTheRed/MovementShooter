@@ -109,6 +109,6 @@ public class PlayerMovement : MonoBehaviour
     //Use this for wall running etc
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        //Debug.Log(other.name);
     }
 }

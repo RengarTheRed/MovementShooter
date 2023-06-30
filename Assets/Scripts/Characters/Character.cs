@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character
+public interface ICharacter
 {
-    public abstract void TakeDamage(float damage);
-    public abstract void Heal(float heal);
+    public void TakeDamage(float damage);
+    public void Heal(float heal);
 }
