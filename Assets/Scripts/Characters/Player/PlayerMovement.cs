@@ -21,15 +21,20 @@ public class PlayerMovement : MonoBehaviour
     
     //Booleans set for wall / ground
     private bool _bWallRunning = false;
+    private bool _bJumping = false;
     private bool _bIsGrounded = false;
     
     //Movement multipliers
     public float moveSpeed = 12f;
     private float gravity = -9.81f;
     private float _jumpheight = 3f;
+
+    private Collider wallRunningObject;
+    private Coroutine _endRun;
+    private float endRunTimer = .3f;
     
 
-    // Get charactercontroller on start if null then print error
+    // Get character-controller on start if null then print error
     void Start()
     {
         _charController = GetComponent<CharacterController>();
@@ -44,17 +49,56 @@ public class PlayerMovement : MonoBehaviour
     {
         //Using this instead of Controller function since that's very buggy
         _bIsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        _bWallRunning = Physics.CheckSphere(transform.position, groundDistance*2f, wallMask);
-        Collider[] hit = Physics.OverlapCapsule(transform.position, transform.position, groundDistance*2f, wallMask);
+        //_bWallRunning = Physics.CheckSphere(transform.position, groundDistance*2f, wallMask);
+        _bJumping = false;
+        
+        //Movement related functions
+        CheckInput();
+        CheckMovement();
+        CheckGravity();
+        ApplyMovement();
+    }
 
-        //Gravity
+    private void FixedUpdate()
+    {
+    }
+
+    //Split update into smaller functions
+    private void CheckInput()
+    {
+        _bJumping = Input.GetButtonDown("Jump");
+        _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
+    }
+    private void CheckMovement()
+    {
+        if (_bJumping)
+        {
+            if (_bIsGrounded)
+            {
+                _verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
+            }
+            if (_bWallRunning)
+            {
+                //_verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
+                
+                //_verticalVelocity = (transform.position - hit[0].ClosestPoint(transform.position)*4f);
+                Vector3 wallJump = 200*(transform.position - wallRunningObject.ClosestPointOnBounds(transform.position));
+                _move += wallJump;
+
+            }
+        }
+    }
+
+    private void CheckGravity()
+    {
         //Check if not grounded
         if (!_bIsGrounded)
         {
             //Wall running applies gravity at reduced rate
             if (_bWallRunning)
             {
-                _verticalVelocity.y += .5f*(gravity * Time.deltaTime);
+                //_verticalVelocity.y += .5f*(gravity * Time.deltaTime);
+                _verticalVelocity.y = 0;
             }
             // Not grounded + Not Wall running apply gravity
             else
@@ -69,46 +113,42 @@ public class PlayerMovement : MonoBehaviour
                 _verticalVelocity.y = 0;
             }
         }
-        //Movement Input & Application of vertical velocity
-        _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (_bIsGrounded)
-            {
-                _verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
-            }
-            if (_bWallRunning)
-            {
-                //_verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
-                
-                //_verticalVelocity = (transform.position - hit[0].ClosestPoint(transform.position)*4f);
-                Vector3 wallJump = 200*(transform.position - hit[0].ClosestPointOnBounds(transform.position));
-                _move += wallJump;
+        _charController.Move(_verticalVelocity*Time.deltaTime);
 
-            }
-        }
-        ApplyMovement();
-    }
-
-    //Split update into smaller functions
-    private void CheckInput()
-    {
-        
-    }
-    private void Movement()
-    {
-        
     }
 
     private void ApplyMovement()
     {
         _charController.Move(_move * (moveSpeed * Time.deltaTime));
-        _charController.Move(_verticalVelocity*Time.deltaTime);
     }
 
-    //Use this for wall running etc
+    //When collide with wall sets bool and collider on exit remove
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.name);
+        if (other.gameObject.layer == 7)
+        {
+            if (_endRun != null)
+            {
+                StopCoroutine(_endRun);
+            }
+            _bWallRunning = true;
+            wallRunningObject = other;
+            Debug.Log("I'm wall running!");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (wallRunningObject == other)
+        {
+            _endRun = StartCoroutine(EndRun(endRunTimer));
+        }
+    }
+
+    private IEnumerator EndRun(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _bWallRunning = false;
+        wallRunningObject = null;
     }
 }
