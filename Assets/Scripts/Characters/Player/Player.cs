@@ -5,13 +5,33 @@ using UnityEngine;
 public class Player : MonoBehaviour, ICharacter
 {
     public DoorManager doorManager;
+    private RaycastHit hit;
+    public LayerMask _interactableLayer;
+    private Transform _raycastOrigin;
 
+    private void Start()
+    {
+        _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
+    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        CheckInput();
+        InteractionRayCast();
+    }
+
+    private void CheckInput()
+    {
+        if (Input.GetButtonDown("Jump"))
         {
-            doorManager.UnlockDoor(0);
-            Debug.Log("Door Unlocked");
+            
+        }
+    }
+
+    private void InteractionRayCast()
+    {
+        if (Physics.Raycast(_raycastOrigin.position, _raycastOrigin.TransformDirection(Vector3.forward), out hit, 5000f, _interactableLayer))
+        {
+            Debug.Log("I hit " + hit.transform.name);
         }
     }
 

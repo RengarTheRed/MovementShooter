@@ -54,38 +54,33 @@ public class PlayerMovement : MonoBehaviour
         
         //Movement related functions
         CheckInput();
-        CheckMovement();
         CheckGravity();
         ApplyMovement();
-    }
-
-    private void FixedUpdate()
-    {
     }
 
     //Split update into smaller functions
     private void CheckInput()
     {
         _bJumping = Input.GetButtonDown("Jump");
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
         _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
     }
-    private void CheckMovement()
+    private void Jump()
     {
-        if (_bJumping)
+        if (_bIsGrounded)
         {
-            if (_bIsGrounded)
-            {
-                _verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
-            }
-            if (_bWallRunning)
-            {
-                //_verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
-                
-                //_verticalVelocity = (transform.position - hit[0].ClosestPoint(transform.position)*4f);
-                Vector3 wallJump = 200*(transform.position - wallRunningObject.ClosestPointOnBounds(transform.position));
-                _move += wallJump;
-
-            }
+            _verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
+        }
+        if (_bWallRunning)
+        {
+            //_verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
+            
+            //_verticalVelocity = (transform.position - hit[0].ClosestPoint(transform.position)*4f);
+            Vector3 wallJump = 200*(transform.position - wallRunningObject.ClosestPointOnBounds(transform.position));
+            _move += wallJump;
         }
     }
 
@@ -97,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
             //Wall running applies gravity at reduced rate
             if (_bWallRunning)
             {
-                //_verticalVelocity.y += .5f*(gravity * Time.deltaTime);
-                _verticalVelocity.y = 0;
+                _verticalVelocity.y += .5f*(gravity * Time.deltaTime);
+                //_verticalVelocity.y = 0;
             }
             // Not grounded + Not Wall running apply gravity
             else

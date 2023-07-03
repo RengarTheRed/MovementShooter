@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 # Paid Synty Assets
 /[Aa]ssets/[Ee]xternal/
+
+# Jetbrains .idea folder
+/.[Ii]dea
