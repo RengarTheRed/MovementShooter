@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Player : MonoBehaviour, ICharacter
 {
-    public DoorManager doorManager;
     private RaycastHit hit;
     public LayerMask _interactableLayer;
     private Transform _raycastOrigin;
 
+    private HUD _playerHUD;
+
     private void Start()
     {
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
+        _playerHUD = FindFirstObjectByType<HUD>();
     }
     private void Update()
     {
@@ -21,9 +24,13 @@ public class Player : MonoBehaviour, ICharacter
 
     private void CheckInput()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Interact"))
         {
-            
+            if (hit.transform!=null)
+            {
+                Debug.Log(hit.transform.name);
+                hit.transform.GetComponent<IInteractable>().Interact(gameObject);
+            }
         }
     }
 
@@ -31,7 +38,11 @@ public class Player : MonoBehaviour, ICharacter
     {
         if (Physics.Raycast(_raycastOrigin.position, _raycastOrigin.TransformDirection(Vector3.forward), out hit, 5000f, _interactableLayer))
         {
-            Debug.Log("I hit " + hit.transform.name);
+            _playerHUD.UpdateInteractText("Press E to use " + hit.transform.GetComponent<IInteractable>().InteractName);
+        }
+        else
+        {
+            _playerHUD.UpdateInteractText("");
         }
     }
 

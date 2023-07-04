@@ -18,14 +18,17 @@ public class PlayerMovement : MonoBehaviour
     //Movement Vectors
     private Vector3 _move;
     private Vector3 _verticalVelocity;
+    private Vector3 _wallJumpVelocity;
     
-    //Booleans set for wall / ground
+    //Booleans set for wall / ground / sprinting
     private bool _bWallRunning = false;
     private bool _bJumping = false;
     private bool _bIsGrounded = false;
+    private bool _bSprinting = false;
     
     //Movement multipliers
-    public float moveSpeed = 12f;
+    private float moveSpeed = 6f;
+    private float maxSpeed = 12f;
     private float gravity = -9.81f;
     private float _jumpheight = 3f;
 
@@ -33,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _endRun;
     private float endRunTimer = .3f;
     
-
     // Get character-controller on start if null then print error
     void Start()
     {
@@ -62,12 +64,15 @@ public class PlayerMovement : MonoBehaviour
     private void CheckInput()
     {
         _bJumping = Input.GetButtonDown("Jump");
+        _bSprinting = Input.GetButton("Sprint");
+        _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
+        
         if (Input.GetButtonDown("Jump"))
         {
             Jump();
         }
-        _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
     }
+    
     private void Jump()
     {
         if (_bIsGrounded)
@@ -76,11 +81,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (_bWallRunning)
         {
-            //_verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
-            
-            //_verticalVelocity = (transform.position - hit[0].ClosestPoint(transform.position)*4f);
-            Vector3 wallJump = 200*(transform.position - wallRunningObject.ClosestPointOnBounds(transform.position));
-            _move += wallJump;
+            _wallJumpVelocity = 5*(transform.position - wallRunningObject.ClosestPointOnBounds(transform.position));
         }
     }
 
@@ -93,7 +94,6 @@ public class PlayerMovement : MonoBehaviour
             if (_bWallRunning)
             {
                 _verticalVelocity.y += .5f*(gravity * Time.deltaTime);
-                //_verticalVelocity.y = 0;
             }
             // Not grounded + Not Wall running apply gravity
             else
@@ -103,18 +103,27 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            _wallJumpVelocity = new Vector3(0, 0, 0);
             if (_verticalVelocity.y < 0)
             {
                 _verticalVelocity.y = 0;
             }
         }
         _charController.Move(_verticalVelocity*Time.deltaTime);
-
+        _charController.Move(_wallJumpVelocity * Time.deltaTime);
     }
 
     private void ApplyMovement()
     {
-        _charController.Move(_move * (moveSpeed * Time.deltaTime));
+        if (_bSprinting)
+        {
+            _charController.Move(_move * (maxSpeed * Time.deltaTime));
+            Debug.Log("Sprint move");
+        }
+        else
+        {
+            _charController.Move(_move * (moveSpeed * Time.deltaTime));
+        }
     }
 
     //When collide with wall sets bool and collider on exit remove
@@ -126,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 StopCoroutine(_endRun);
             }
+            //_wallJumpVelocity = new Vector3(0, 0, 0);
             _bWallRunning = true;
             wallRunningObject = other;
             Debug.Log("I'm wall running!");

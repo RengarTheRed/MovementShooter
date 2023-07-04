@@ -6,7 +6,7 @@ using UnityEngine;
 public class OpenDoor : MonoBehaviour
 {
     private Animator aniDoor;
-    private bool _unlocked;
+    public bool _unlocked;
     
     private void Start()
     {

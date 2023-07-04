@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IInteractable
 {
+    string InteractName { get; set; }
+
     public void Interact(GameObject instigator)
     {
         

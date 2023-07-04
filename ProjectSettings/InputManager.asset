@@ -326,13 +326,13 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Debug Reset
+    m_Name: Interact
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: left alt
+    positiveButton: e
     altNegativeButton: 
-    altPositiveButton: joystick button 1
+    altPositiveButton: 
     gravity: 0
     dead: 0
     sensitivity: 0
@@ -342,13 +342,13 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Debug Next
+    m_Name: Sprint
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: page down
+    positiveButton: left shift
     altNegativeButton: 
-    altPositiveButton: joystick button 5
+    altPositiveButton: 
     gravity: 0
     dead: 0
     sensitivity: 0
