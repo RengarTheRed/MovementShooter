@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = .4f;
     //LayerMasks to use
     public LayerMask groundMask;
-    public LayerMask wallMask;
     
     //Movement Vectors
     private Vector3 _move;
@@ -64,9 +63,11 @@ public class PlayerMovement : MonoBehaviour
     private void CheckInput()
     {
         _bJumping = Input.GetButtonDown("Jump");
-        _bSprinting = Input.GetButton("Sprint");
-        _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
-        
+        if (_bIsGrounded)
+        {
+            _bSprinting = Input.GetButton("Sprint");
+            _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
+        }
         if (Input.GetButtonDown("Jump"))
         {
             Jump();
