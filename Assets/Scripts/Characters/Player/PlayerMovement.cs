@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     
     //Booleans set for wall / ground / sprinting
     private bool _bWallRunning = false;
-    private bool _bJumping = false;
+    private bool _bHasJumped = false;
     private bool _bIsGrounded = false;
     private bool _bSprinting = false;
     
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Collider wallRunningObject;
     private Coroutine _endRun;
-    private float endRunTimer = .3f;
+    private float endRunTimer = .1f;
     
     // Get character-controller on start if null then print error
     void Start()
@@ -50,9 +50,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Using this instead of Controller function since that's very buggy
         _bIsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        //_bWallRunning = Physics.CheckSphere(transform.position, groundDistance*2f, wallMask);
-        _bJumping = false;
-        
+
         //Movement related functions
         CheckInput();
         CheckGravity();
@@ -62,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
     //Split update into smaller functions
     private void CheckInput()
     {
-        _bJumping = Input.GetButtonDown("Jump");
         if (_bIsGrounded)
         {
             _bSprinting = Input.GetButton("Sprint");
@@ -73,16 +70,19 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
     }
-    
+
     private void Jump()
     {
         if (_bIsGrounded)
         {
             _verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * gravity);
         }
-        if (_bWallRunning)
+        if (_bWallRunning &&!_bHasJumped)
         {
-            _wallJumpVelocity = 5*(transform.position - wallRunningObject.ClosestPointOnBounds(transform.position));
+            _bHasJumped = true;
+            
+            _wallJumpVelocity = 50*(transform.position - wallRunningObject.ClosestPoint(transform.position));
+            _wallJumpVelocity.y = 1;
         }
     }
 
@@ -119,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
         if (_bSprinting)
         {
             _charController.Move(_move * (maxSpeed * Time.deltaTime));
-            Debug.Log("Sprint move");
         }
         else
         {
@@ -136,10 +135,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 StopCoroutine(_endRun);
             }
-            //_wallJumpVelocity = new Vector3(0, 0, 0);
+
+            _move = _charController.velocity.normalized;
+            _wallJumpVelocity = new Vector3(0, 0, 0);
             _bWallRunning = true;
             wallRunningObject = other;
-            Debug.Log("I'm wall running!");
         }
     }
 
@@ -156,5 +156,6 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         _bWallRunning = false;
         wallRunningObject = null;
+        _bHasJumped = false;
     }
 }
