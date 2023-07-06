@@ -19930,13 +19930,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1087233085573688, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1978556092}
   m_SourcePrefab: {fileID: 100100000, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
 --- !u!4 &1978556090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1224208854803366322, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
   m_PrefabInstance: {fileID: 1978556089}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1978556091 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1087233085573688, guid: 070737ca19fedf044b465dbbcd97d924, type: 3}
+  m_PrefabInstance: {fileID: 1978556089}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1978556092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978556091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d20a56cecc8b0b49abc8209232282bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 5215146852649170054, guid: 9ec6616ebd2f81f41a1e402f6143f9da, type: 3}
+  _gunBarrel: {fileID: 1978556090}
+  _bulletManager: {fileID: 1184756530}
 --- !u!1001 &1978578653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21502,7 +21525,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 986876834232565635, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2258043829428961298, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
     m_AddedGameObjects:

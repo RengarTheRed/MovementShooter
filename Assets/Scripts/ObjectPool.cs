@@ -19,9 +19,19 @@ public class ObjectPool
         _poolParent = parentObject;
         _objectPool = new List<GameObject>(initialPoolSize);
 
-        for (int i = 0; i < initialPoolSize; i++)
+        if (_poolParent.childCount>0)
         {
-            CreateNewObject();
+            foreach (Transform child in _poolParent)
+            {
+                _objectPool.Add(child.gameObject);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < initialPoolSize; i++)
+            {
+                CreateNewObject();
+            }
         }
     }
 

@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _move;
     private Vector3 _verticalVelocity;
     private Vector3 _wallJumpVelocity;
-    
+
     //Booleans set for wall / ground / sprinting
     private bool _bWallRunning = false;
     private bool _bHasJumped = false;
