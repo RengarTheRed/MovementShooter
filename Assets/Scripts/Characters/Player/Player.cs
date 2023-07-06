@@ -48,11 +48,11 @@ public class Player : MonoBehaviour, ICharacter
 
     public void TakeDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Player took ouchies!");
     }
 
     public void Heal(float heal)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Player has healed");
     }
 }
