@@ -13,21 +13,24 @@ public class OpenDoor : MonoBehaviour
         aniDoor = GetComponentInChildren<Animator>();
     }
 
-    //When triggered open door, close on exit
+    //When triggered open door, close on exit, add type checks for this
     private void OnTriggerEnter(Collider other)
     {
-        if (_unlocked)
+        if (other.CompareTag("Player") && _unlocked)
         {
-            PlayDoorAnimation(true);
+            ChangeDoorState(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        PlayDoorAnimation(false);
+        if (other.CompareTag("Player"))
+        {
+            ChangeDoorState(false);
+        }
     }
 
-    private void PlayDoorAnimation(bool openDoor)
+    private void ChangeDoorState(bool openDoor)
     {
         aniDoor.SetBool("OpenDoor", openDoor);
     }
@@ -36,10 +39,5 @@ public class OpenDoor : MonoBehaviour
     public void UnlockDoor()
     {
         _unlocked = true;
-    }
-
-    public bool GetLockedState()
-    {
-        return _unlocked;
     }
 }
