@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, ICharacter
     private RaycastHit hit;
     public LayerMask _interactableLayer;
     private Transform _raycastOrigin;
+    private int _CurrentCheckPointID = 0;
 
     private HUD _playerHUD;
 
@@ -54,5 +55,15 @@ public class Player : MonoBehaviour, ICharacter
     public void Heal(float heal)
     {
         Debug.Log("Player has healed");
+    }
+
+    public int GetCheckPoint()
+    {
+        return _CurrentCheckPointID;
+    }
+
+    public void SetCheckPoint(int newCheckPointID)
+    {
+        _CurrentCheckPointID = newCheckPointID;
     }
 }
