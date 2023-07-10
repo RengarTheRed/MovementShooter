@@ -10,17 +10,31 @@ public class Player : MonoBehaviour, ICharacter
     private Transform _raycastOrigin;
     private int _CurrentCheckPointID = 0;
 
+    private CheckpointManager _checkpointManager;
     private HUD _playerHUD;
 
     private void Start()
     {
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
         _playerHUD = FindFirstObjectByType<HUD>();
+        _checkpointManager = FindFirstObjectByType<CheckpointManager>();
     }
     private void Update()
     {
         CheckInput();
         InteractionRayCast();
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LoadCheckPoint();
+        }
+    }
+
+    //Currently inefficiently gets charcontroller each time will improve soon
+    private void LoadCheckPoint()
+    {
+        GetComponent<CharacterController>().enabled = false;
+        gameObject.transform.position = _checkpointManager.GetPlayerCheckPoint(_CurrentCheckPointID).position;
+        GetComponent<CharacterController>().enabled = true;
     }
 
     private void CheckInput()
@@ -29,7 +43,6 @@ public class Player : MonoBehaviour, ICharacter
         {
             if (hit.transform!=null)
             {
-                Debug.Log(hit.transform.name);
                 hit.transform.GetComponent<IInteractable>().Interact(gameObject);
             }
         }
@@ -49,12 +62,12 @@ public class Player : MonoBehaviour, ICharacter
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Player took ouchies!");
+        //Debug.Log("Player took ouchies!");
     }
 
     public void Heal(float heal)
     {
-        Debug.Log("Player has healed");
+        //Debug.Log("Player has healed");
     }
 
     public int GetCheckPoint()
