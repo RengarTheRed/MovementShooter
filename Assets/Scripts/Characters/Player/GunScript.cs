@@ -6,14 +6,26 @@ public class GunScript : MonoBehaviour
 {
     public GameObject _bulletPrefab;
     public Transform _gunBarrel;
-    public Transform _bulletManager;
+    private Transform _bulletManager;
 
     private ObjectPool _bulletPool;
 
     // Start creates manager object and pools
     private void Start()
     {
+        // Checks if a bulletmanager exists and if not creates one
+        if(GameObject.FindWithTag("BulletManager"))
+        {
+            _bulletManager = GameObject.FindWithTag("BulletManager").transform;
+        }
+        else
+        {
+            _bulletManager = new GameObject("BulletManager").transform;
+            _bulletManager.tag = "BulletManager";
 
+        }
+        
+        //Populates pool
         _bulletPool = new ObjectPool(_bulletPrefab, 6, _bulletManager);
     }
 
