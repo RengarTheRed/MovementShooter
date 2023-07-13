@@ -51,6 +51,6 @@ public class GunScript : MonoBehaviour
         bullet.SetActive(true);
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.velocity = _gunBarrel.forward * 10f;
+        rb.velocity = _gunBarrel.forward * 50f;
     }
 }

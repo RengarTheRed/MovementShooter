@@ -30,7 +30,7 @@ public class Player : MonoBehaviour, ICharacter
     }
 
     //Currently inefficiently gets charcontroller each time will improve soon
-    private void LoadCheckPoint()
+    public void LoadCheckPoint()
     {
         GetComponent<CharacterController>().enabled = false;
         gameObject.transform.position = _checkpointManager.GetPlayerCheckPoint(_CurrentCheckPointID).position;
