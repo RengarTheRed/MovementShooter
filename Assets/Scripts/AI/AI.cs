@@ -3,15 +3,16 @@ using UnityEngine.AI;
 
 public abstract class AI : MonoBehaviour
 {
-    private NavMeshAgent _agent;
-    private float _moveSpeed=10f;
+    public NavMeshAgent _agent;
+    //private float _moveSpeed=10f;
     public State _state = State.Idle;
     
 
-    private float fieldOfView = 45;
-    private float sightDistance = 100;
     private Transform _player;
-
+    /*private float fieldOfView = 45;
+    private float sightDistance = 100;
+    */
+    public bool _bCurrentlyInState=false;
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -20,20 +21,25 @@ public abstract class AI : MonoBehaviour
     private void Update()
     {
         UpdateSense();
-        switch (_state)
+        if (!_bCurrentlyInState)
         {
-            case State.Idle:
-                Idle();
-                break;
-            case State.Patrol:
-                Patrol();
-                break;
-            case State.SeePlayer:
-                SeePlayer();
-                break;
-            case State.Attack:
-                Attack();
-                break;
+            _bCurrentlyInState = true;
+            switch (_state)
+            {
+                case State.Idle:
+                    Idle();
+                    break;
+                case State.Patrol:
+                    Patrol();
+                    break;
+                case State.SeePlayer:
+                    SeePlayer();
+                    break;
+                case State.Attack:
+                    Attack();
+                    break;
+            }
+            //_bCurrentlyInState = false;
         }
     }
 
