@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: MeleeEnemy
+  m_EditorClassIdentifier: 
+  rootNode:
+    rid: 545320739180642312
+  nodes:
+  - rid: 545320739180642312
+  - rid: 545320739180642315
+  - rid: 545320739180642340
+  - rid: 545320747769790487
+  - rid: 545320747769790493
+  - rid: 545320747769790494
+  - rid: 545320747769790498
+  treeState: 0
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    seePlayer: 1
+    inAttackRange: 0
+  viewPosition: {x: 368, y: -88.8, z: 0}
+  viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: 545320739180642312
+      type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 3b510e67-8201-4525-b70d-6a85f07aea18
+        position: {x: 0, y: 0}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: 
+        drawGizmos: 0
+        child:
+          rid: 545320739180642315
+    - rid: 545320739180642315
+      type: {class: Repeat, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 43313a23a3316ae48a3758cd6c08447a
+        position: {x: 14, y: 99.40001}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: 
+        drawGizmos: 0
+        child:
+          rid: 545320747769790487
+        restartOnSuccess: 1
+        restartOnFailure: 0
+    - rid: 545320739180642340
+      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: ca6d5bc133e35d34d8f4b2f9c6b78cdd
+        position: {x: 58.400024, y: 470.39996}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: I cannot see
+        drawGizmos: 0
+        message: I cannot see
+    - rid: 545320747769790487
+      type: {class: InterruptSelector, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: e222f5c665c53a245a38a6b609093ceb
+        position: {x: 0.8000488, y: 249}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 545320747769790493
+        - rid: 545320739180642340
+    - rid: 545320747769790493
+      type: {class: Sequencer, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 9b3c3fcb51cf29e44898d53f9e6b9ec3
+        position: {x: -148.79999, y: 410.4}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 545320747769790498
+        - rid: 545320747769790494
+    - rid: 545320747769790494
+      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 5bf1de7b55192c044b45623a2144dfb7
+        position: {x: -101, y: 555.2}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: 
+        drawGizmos: 0
+        message: I see player
+    - rid: 545320747769790498
+      type: {class: CheckIfSeePlayer, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 638283d8c625ce146935f52a2b684980
+        position: {x: -268, y: 555.2}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          seePlayer: 0
+          inAttackRange: 0
+        description: 
+        drawGizmos: 0

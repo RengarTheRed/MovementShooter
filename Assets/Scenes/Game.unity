@@ -5993,7 +5993,7 @@ GameObject:
   - component: {fileID: 290177859}
   - component: {fileID: 290177860}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6145,15 +6145,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 290177852}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ef8cd02e68a5134a9284101254dedf7, type: 3}
+  m_Script: {fileID: 11500000, guid: 58c6f9b140a52a14881ec09eaebb66eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolWaypoints:
-  - {fileID: 357137863}
-  - {fileID: 1264172357}
-  player: {fileID: 1194255194}
-  attackRange: 2
-  movementSpeed: 5
+  tree: {fileID: 11400000, guid: ca9c33b14ff443f4bb5fb99870524e69, type: 2}
 --- !u!1 &296359059
 GameObject:
   m_ObjectHideFlags: 0
@@ -23783,11 +23778,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ecb939ff436ba84295af759ce0365a6, type: 3}
---- !u!4 &1194255194 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9098718179154732545, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
-  m_PrefabInstance: {fileID: 8475243787874733210}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1196969705
 PrefabInstance:
   m_ObjectHideFlags: 0
