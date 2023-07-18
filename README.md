@@ -32,7 +32,7 @@ There will be a build version in many weeks time.
 Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googling solutions to problems.
 
 ### Tools Used
-- Unity 2023.1.1f1
+- Unity 2023.1.4f1
 - JetBrains Rider 2023.1.2
 - VS Code (Editing README and also Secondary IDE)
 - Google Docs (Creating and maintaining the Game Design Document)
