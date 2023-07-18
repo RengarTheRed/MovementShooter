@@ -17,7 +17,6 @@ MonoBehaviour:
   nodes:
   - rid: 545320739180642312
   - rid: 545320739180642315
-  - rid: 545320739180642340
   - rid: 545320747769790487
   - rid: 545320747769790493
   - rid: 545320747769790494
@@ -25,9 +24,9 @@ MonoBehaviour:
   treeState: 0
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
-    seePlayer: 1
+    seePlayer: 0
     inAttackRange: 0
-  viewPosition: {x: 368, y: -88.8, z: 0}
+  viewPosition: {x: 312, y: -225.6, z: 0}
   viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
@@ -64,20 +63,6 @@ MonoBehaviour:
           rid: 545320747769790487
         restartOnSuccess: 1
         restartOnFailure: 0
-    - rid: 545320739180642340
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: ca6d5bc133e35d34d8f4b2f9c6b78cdd
-        position: {x: 58.400024, y: 470.39996}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-          seePlayer: 0
-          inAttackRange: 0
-        description: I cannot see
-        drawGizmos: 0
-        message: I cannot see
     - rid: 545320747769790487
       type: {class: InterruptSelector, ns: TheKiwiCoder, asm: Assembly-CSharp}
       data:
@@ -93,7 +78,6 @@ MonoBehaviour:
         drawGizmos: 0
         children:
         - rid: 545320747769790493
-        - rid: 545320739180642340
     - rid: 545320747769790493
       type: {class: Sequencer, ns: TheKiwiCoder, asm: Assembly-CSharp}
       data:
@@ -116,12 +100,14 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 5bf1de7b55192c044b45623a2144dfb7
-        position: {x: -101, y: 555.2}
+        position: {x: -100.79999, y: 555.2}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
           seePlayer: 0
           inAttackRange: 0
-        description: 
+        description: 'See Player
+
+'
         drawGizmos: 0
         message: I see player
     - rid: 545320747769790498
