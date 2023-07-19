@@ -182,7 +182,13 @@ public class AIPerception : MonoBehaviour
     private void ReportPlayerSighting()
     {
         bb.seePlayer = true;
-        Debug.Log(bb.seePlayer);
+        bb.player = FindFirstObjectByType<Player>();
+    }
+
+    public void HearNoise(Vector3 soundLocation)
+    {
+        bb.HearShot = true;
+        bb.moveToPosition = soundLocation;
     }
 
     /*private void OnDrawGizmos()

@@ -5995,7 +5995,7 @@ GameObject:
   - component: {fileID: 290177861}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6162,7 +6162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faba540ee91a4944b9f246ea37848b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 10
+  distance: 2
   angle: 32.1
   height: 1
   meshColor: {r: 1, g: 0, b: 0, a: 1}

@@ -7,13 +7,14 @@ public class GunScript : MonoBehaviour
     public GameObject _bulletPrefab;
     public Transform _gunBarrel;
     private Transform _bulletManager;
+    private float gunNoiseDistance = 50;
 
     private ObjectPool _bulletPool;
 
     // Start creates manager object and pools
     private void Start()
     {
-        // Checks if a bulletmanager exists and if not creates one
+        // Checks if a bullet manager exists and if not creates one
         if(GameObject.FindWithTag("BulletManager"))
         {
             _bulletManager = GameObject.FindWithTag("BulletManager").transform;
@@ -52,5 +53,19 @@ public class GunScript : MonoBehaviour
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = _gunBarrel.forward * 50f;
+        MakeNoise();
+    }
+
+    private void MakeNoise()
+    {
+        var allEnemies = Physics.SphereCastAll(this.transform.position, gunNoiseDistance, transform.forward);
+
+        foreach (var enemy in allEnemies)
+        {
+            if (enemy.transform.CompareTag("Enemy"))
+            {
+                enemy.transform.GetComponent<AIPerception>().HearNoise(this.transform.position);
+            }
+        }
     }
 }
