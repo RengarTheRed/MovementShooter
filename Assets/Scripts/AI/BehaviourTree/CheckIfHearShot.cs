@@ -13,7 +13,7 @@ public class CheckIfHearShot : ActionNode
     }
 
     protected override State OnUpdate() {
-        if (blackboard.HearShot)
+        if (blackboard.hearShot)
         {
             return State.Success;
         }

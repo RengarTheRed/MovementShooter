@@ -27,6 +27,9 @@ public class AIPerception : MonoBehaviour
     public List<GameObject> _objectsHit = new List<GameObject>();
     public LayerMask blockingLayers;
     private Blackboard bb;
+    
+    //Clear Timer
+    private float clearTimer = 3;
 
     private void Start()
     {
@@ -55,6 +58,11 @@ public class AIPerception : MonoBehaviour
             if (IsInSight(obj))
             {
                 _objectsHit.Add(obj);
+                ReportPlayerSighting();
+            }
+            else
+            {
+                StartCoroutine(ClearSight(clearTimer));
             }
         }
     }
@@ -84,7 +92,6 @@ public class AIPerception : MonoBehaviour
         {
             return false;
         }
-        ReportPlayerSighting();
         return true;
     }
 
@@ -187,8 +194,14 @@ public class AIPerception : MonoBehaviour
 
     public void HearNoise(Vector3 soundLocation)
     {
-        bb.HearShot = true;
-        bb.moveToPosition = soundLocation;
+        bb.soundLocation = soundLocation;
+        bb.hearShot = true;
+    }
+
+    private IEnumerator ClearSight(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        bb.seePlayer = false;
     }
 
     /*private void OnDrawGizmos()
