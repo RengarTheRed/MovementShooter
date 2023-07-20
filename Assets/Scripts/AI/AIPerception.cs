@@ -5,6 +5,7 @@ using TheKiwiCoder;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.AI;
 using Blackboard = TheKiwiCoder.Blackboard;
 
 public class AIPerception : MonoBehaviour
@@ -194,8 +195,16 @@ public class AIPerception : MonoBehaviour
 
     public void HearNoise(Vector3 soundLocation)
     {
-        bb.soundLocation = soundLocation;
-        bb.hearShot = true;
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if (agent.CalculatePath(soundLocation, agent.path))
+        {
+            bb.soundLocation = soundLocation;
+            bb.hearShot = true;
+        }
+        else
+        {
+            Debug.Log("Can't get path to sound");
+        }
     }
 
     private IEnumerator ClearSight(float duration)

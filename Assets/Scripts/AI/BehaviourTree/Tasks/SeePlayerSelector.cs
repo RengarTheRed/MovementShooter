@@ -13,19 +13,15 @@ public class SeePlayerSelector : InterruptSelector
     }
 
     protected override State OnUpdate() {
-        if (blackboard.seePlayer)
-        {
-            if (current != 0)
-            {
-                children[current].Abort();
-                current = 0;
+        int previous = current;
+        base.OnStart();
+        var status = base.OnUpdate();
+        if (previous != current) {
+            if (children[previous].state == State.Running) {
+                children[previous].Abort();
             }
         }
-        else
-        {
-            current = 1;
-        }
 
-        return State.Running;
+        return status;
     }
 }

@@ -44,8 +44,8 @@ MonoBehaviour:
     seePlayer: 0
     player: {fileID: 0}
     hearShot: 0
-  viewPosition: {x: -915.2, y: -864, z: 0}
-  viewScale: {x: 1, y: 1, z: 1}
+  viewPosition: {x: -67.2, y: -253.6, z: 0}
+  viewScale: {x: 0.57175326, y: 0.57175326, z: 1}
   references:
     version: 2
     RefIds:
@@ -55,7 +55,7 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 3b510e67-8201-4525-b70d-6a85f07aea18
-        position: {x: 0, y: 0}
+        position: {x: -60.800053, y: 101.08076}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
           lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 43313a23a3316ae48a3758cd6c08447a
-        position: {x: 14, y: 99.40001}
+        position: {x: -59.999973, y: 218.64557}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
           lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
@@ -274,7 +274,7 @@ MonoBehaviour:
           hearShot: 0
         description: 
         drawGizmos: 0
-        duration: 25
+        duration: 3
     - rid: 6730085816044879880
       type: {class: AttackPlayer, ns: , asm: Assembly-CSharp}
       data:
@@ -360,7 +360,7 @@ MonoBehaviour:
           hearShot: 0
         description: 
         drawGizmos: 0
-        duration: 25
+        duration: 3
     - rid: 6730085831916126213
       type: {class: MoveToSound, ns: , asm: Assembly-CSharp}
       data:
@@ -384,7 +384,7 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 0be5da3e83784e14eb6ace77e8725afe
-        position: {x: 246.40001, y: 1227.9998}
+        position: {x: 246.40001, y: 1228}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
           lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
@@ -418,7 +418,7 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 0b4318eba876c904ebc212bbdd470f7f
-        position: {x: 1260.3999, y: 1180}
+        position: {x: 1248.557, y: 1180.8}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
           lastSeenPlayerLocation: {x: 0, y: 0, z: 0}

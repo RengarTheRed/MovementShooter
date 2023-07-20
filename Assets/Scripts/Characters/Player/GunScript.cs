@@ -7,7 +7,7 @@ public class GunScript : MonoBehaviour
     public GameObject _bulletPrefab;
     public Transform _gunBarrel;
     private Transform _bulletManager;
-    private float gunNoiseDistance = 50;
+    private float gunNoiseDistance = 25;
 
     private ObjectPool _bulletPool;
 
