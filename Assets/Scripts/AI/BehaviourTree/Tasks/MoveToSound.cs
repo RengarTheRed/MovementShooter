@@ -6,7 +6,7 @@ using TheKiwiCoder;
 [System.Serializable]
 public class MoveToSound : ActionNode
 {
-    public float tolerance = 5.0f;
+    public float tolerance = 1.0f;
 
     protected override void OnStart() {
         context.agent.destination = blackboard.soundLocation;

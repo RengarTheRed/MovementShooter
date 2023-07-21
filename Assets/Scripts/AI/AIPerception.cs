@@ -189,6 +189,7 @@ public class AIPerception : MonoBehaviour
 
     private void ReportPlayerSighting()
     {
+        Debug.Log("Can see player!");
         bb.seePlayer = true;
         bb.player = FindFirstObjectByType<Player>();
     }
@@ -213,7 +214,7 @@ public class AIPerception : MonoBehaviour
         bb.seePlayer = false;
     }
 
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (_mesh)
         {
@@ -228,9 +229,12 @@ public class AIPerception : MonoBehaviour
         }
 
         Gizmos.color = Color.green;
-        foreach (var obj in _objectsHit)
+        if (_objectsHit.Count > 0)
         {
-            Gizmos.DrawSphere(obj.transform.position, .2f);
+            foreach (var obj in _objectsHit)
+            {
+                Gizmos.DrawSphere(obj.transform.position, .2f);
+            }
         }
-    }*/
+    }
 }

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface ICharacter
 {
-    public void TakeDamage(float damage);
-    public void Heal(float heal);
+    public void TakeDamage(int damage);
+    public void Heal(int heal);
 }

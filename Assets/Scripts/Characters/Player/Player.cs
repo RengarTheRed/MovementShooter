@@ -12,9 +12,14 @@ public class Player : MonoBehaviour, ICharacter
 
     private CheckpointManager _checkpointManager;
     private HUD _playerHUD;
+    
+    //HP
+    public int _maxHP = 10;
+    private int _currentHP;
 
     private void Start()
     {
+        _currentHP = _maxHP;
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
         _playerHUD = FindFirstObjectByType<HUD>();
         _checkpointManager = FindFirstObjectByType<CheckpointManager>();
@@ -50,24 +55,45 @@ public class Player : MonoBehaviour, ICharacter
 
     private void InteractionRayCast()
     {
-        if (Physics.Raycast(_raycastOrigin.position, _raycastOrigin.TransformDirection(Vector3.forward), out hit, 5000f, _interactableLayer))
+        if (_playerHUD)
         {
-            _playerHUD.UpdateInteractText("Press E to use " + hit.transform.GetComponent<IInteractable>().InteractName);
+            if (Physics.Raycast(_raycastOrigin.position, _raycastOrigin.TransformDirection(Vector3.forward), out hit, 500f, _interactableLayer))
+            {
+                _playerHUD.UpdateInteractText("Press E to use " + hit.transform.GetComponent<IInteractable>().InteractName);
+            }
+            else
+            {
+                _playerHUD.UpdateInteractText("");
+            }
+        }
+    }
+
+    //Damage Function Implementation
+    public void TakeDamage(int damage)
+    {
+        _currentHP -= damage;
+        if (_currentHP < 0)
+        {
+            
+        }
+    }
+
+    //Heal Function maxes at maxHP
+    public void Heal(int heal)
+    {
+        if (_currentHP + heal <= _maxHP)
+        {
+            _currentHP += heal;
         }
         else
         {
-            _playerHUD.UpdateInteractText("");
+            _currentHP = _maxHP;
         }
     }
 
-    public void TakeDamage(float damage)
+    private void Death()
     {
-        //Debug.Log("Player took ouchies!");
-    }
-
-    public void Heal(float heal)
-    {
-        //Debug.Log("Player has healed");
+        //Display GameOver etc
     }
 
     public int GetCheckPoint()
