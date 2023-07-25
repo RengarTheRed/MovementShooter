@@ -76,3 +76,6 @@ crashlytics-build.properties
 
 # Jetbrains .idea folder
 /.[Ii]dea
+
+#Lighting Data
+/[Aa]ssets\[Ss]cenes\Game\LightingData.asset
