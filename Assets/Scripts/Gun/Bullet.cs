@@ -7,11 +7,14 @@ public class Bullet : MonoBehaviour
 {
     private int _bulletDamage = 1;
     private float _lifeSpan = 4f;
+    
+    //When hit character deal damage and deactivate
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.GetComponent<ICharacter>() != null)
         {
             other.transform.GetComponent<ICharacter>().TakeDamage(_bulletDamage);
+            gameObject.SetActive(false);
         }
     }
 

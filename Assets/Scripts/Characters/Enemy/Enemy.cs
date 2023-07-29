@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour, ICharacter
 
     private void Death()
     {
+        Debug.Log("I " + gameObject.name + (" have died."));
         Destroy(gameObject);
     }
     public void TakeDamage(int damage)

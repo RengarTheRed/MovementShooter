@@ -119,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
         if (_bSprinting)
         {
             _charController.Move(_move * (maxSpeed * Time.deltaTime));
+            //GetComponent<Rigidbody>().AddForce();
         }
         else
         {
