@@ -68,6 +68,11 @@ public class Player : MonoBehaviour, ICharacter
         }
     }
 
+    public void UpdateAmmoUI(int newCount)
+    {
+        _playerHUD.UpdateAmmoText(newCount);
+    }
+
     //Damage Function Implementation
     public void TakeDamage(int damage)
     {
