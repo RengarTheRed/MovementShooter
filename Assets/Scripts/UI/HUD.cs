@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
+    //Interact & Timer text elements
     public TMP_Text _interactText;
+    public TMP_Text _timerText;
     
     //Ammo UI Components
     public TMP_Text _ammoText;
@@ -43,5 +45,10 @@ public class HUD : MonoBehaviour
     {
         _hpText.SetText(newHP.ToString());
         _hpSlider.value = newHP;
+    }
+
+    public void UpdateTimer(float newTime)
+    {
+        _timerText.SetText(newTime.ToString("F0"));
     }
 }

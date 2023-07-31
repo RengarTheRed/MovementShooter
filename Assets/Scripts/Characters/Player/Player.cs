@@ -5,45 +5,64 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, ICharacter
 {
+    //Interaction Setup
     private RaycastHit hit;
     public LayerMask _interactableLayer;
     private Transform _raycastOrigin;
+    
+    //Checkpoint System Setup
     private int _CurrentCheckPointID = 0;
-
     private CheckpointManager _checkpointManager;
+
+    //HUD
     private HUD _playerHUD;
     
     //HP
     public int _maxHP = 10;
     private int _currentHP;
 
+    private CharacterController _characterController;
+
+    private float _gameTimer=0f;
+
+    //Start sets up variables
+    //May Create HUD at runtime instead of grabbing from scene
     private void Start()
     {
-        _currentHP = _maxHP;
+        //Once I change to make HUD at runtime I could also edit the prefab and pre-set the other variables too
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
         _playerHUD = FindFirstObjectByType<HUD>();
         _checkpointManager = FindFirstObjectByType<CheckpointManager>();
+        _characterController = GetComponent<CharacterController>();
+
+        _currentHP = _maxHP;
         int maxAmmo = GetComponentInChildren<GunScript>()._maxAmmo;
         _playerHUD.SetupHUD(_maxHP, maxAmmo);
     }
-    private void Update()
+    
+    //Update Checks Input & Interaction
+    private void FixedUpdate()
     {
         CheckInput();
         InteractionRayCast();
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            LoadCheckPoint();
-        }
+        UpdateTimer();
     }
 
-    //Currently inefficiently gets charcontroller each time will improve soon
+    private void UpdateTimer()
+    {
+        _gameTimer += Time.deltaTime;
+        _playerHUD.UpdateTimer(_gameTimer);
+    }
+
+    //Disables character controller as can't set position with it enabled then 'teleports' and re-enables
     public void LoadCheckPoint()
     {
-        GetComponent<CharacterController>().enabled = false;
+        _characterController.enabled = false;
         gameObject.transform.position = _checkpointManager.GetPlayerCheckPoint(_CurrentCheckPointID).position;
-        GetComponent<CharacterController>().enabled = true;
+        _characterController.enabled = true;
     }
 
+    //Input Checking
     private void CheckInput()
     {
         if (Input.GetButtonDown("Interact"))
@@ -53,8 +72,14 @@ public class Player : MonoBehaviour, ICharacter
                 hit.transform.GetComponent<IInteractable>().Interact(gameObject);
             }
         }
+        //Hard coded reset button, not sure if keeping in final build
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LoadCheckPoint();
+        }
     }
 
+    //Raycasts from raycast origin and checks for "Interactable" layer, if so pop-up on UI
     private void InteractionRayCast()
     {
         if (_playerHUD)
@@ -69,7 +94,8 @@ public class Player : MonoBehaviour, ICharacter
             }
         }
     }
-
+    
+    //UI Functions, Update Ammo & Update HP
     public void UpdateAmmoUI(int newCount)
     {
         _playerHUD.UpdateAmmo(newCount);
@@ -103,11 +129,13 @@ public class Player : MonoBehaviour, ICharacter
         }
     }
 
+    //Function that displays gameover HUD etc
     private void Death()
     {
         //Display GameOver etc
     }
-
+    
+    //Functions for Updating / Getting Current Checkpoint
     public int GetCheckPoint()
     {
         return _CurrentCheckPointID;
