@@ -41,7 +41,7 @@ public class Player : MonoBehaviour, ICharacter
     }
     
     //Update Checks Input & Interaction
-    private void FixedUpdate()
+    private void Update()
     {
         CheckInput();
         InteractionRayCast();
@@ -77,6 +77,11 @@ public class Player : MonoBehaviour, ICharacter
         {
             LoadCheckPoint();
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Pause();
+        }
     }
 
     //Raycasts from raycast origin and checks for "Interactable" layer, if so pop-up on UI
@@ -104,6 +109,11 @@ public class Player : MonoBehaviour, ICharacter
     private void UpdateHPUI()
     {
         _playerHUD.UpdateHP(_currentHP);
+    }
+
+    private void Pause()
+    {
+        _playerHUD.Pause();
     }
 
     //Damage Function Implementation

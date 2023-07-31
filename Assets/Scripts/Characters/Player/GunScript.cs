@@ -47,6 +47,11 @@ public class GunScript : MonoBehaviour
     
     private void Update()
     {
+        //To prevent firing when paused
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
         CheckInput();
         CheckAmmo();
     }
