@@ -23,6 +23,8 @@ public class Player : MonoBehaviour, ICharacter
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
         _playerHUD = FindFirstObjectByType<HUD>();
         _checkpointManager = FindFirstObjectByType<CheckpointManager>();
+        int maxAmmo = GetComponentInChildren<GunScript>()._maxAmmo;
+        _playerHUD.SetupHUD(_maxHP, maxAmmo);
     }
     private void Update()
     {
@@ -70,7 +72,12 @@ public class Player : MonoBehaviour, ICharacter
 
     public void UpdateAmmoUI(int newCount)
     {
-        _playerHUD.UpdateAmmoText(newCount);
+        _playerHUD.UpdateAmmo(newCount);
+    }
+
+    private void UpdateHPUI()
+    {
+        _playerHUD.UpdateHP(_currentHP);
     }
 
     //Damage Function Implementation
