@@ -15,7 +15,7 @@ To get the project to work with said pack provided you have your own copy.
 1. Follow the above instructions.
 2. Import the Synty Sci-Fi Space Pack
 3. Move the folder created into the Synty Folder
-4. Follow the Synty video tutorial to upgrade to URP (Don't forget to upgrade shaders too) [^1]
+4. Follow the Synty video tutorial to upgrade to URP (This project is using the HDRP, the steps are similar just click the HDRP instead of URP options). [^1]
 5. Enjoy
 
 There will be a build version in many weeks time.
