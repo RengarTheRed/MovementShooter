@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using Mono.Cecil.Cil;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,12 +24,17 @@ public class GunScript : MonoBehaviour
     private float _rechargeTimer;
 
     private Player _player;
+    private bool isHeld = true;
+
+    private AttachData _attachData;
+    private Rigidbody _rigidbody;
 
     // Start creates manager object and pools
     private void Start()
     {
         //Get Player Script
         _player = GetComponentInParent<Player>();
+        _rigidbody = GetComponent<Rigidbody>();
         
         // Checks if a bullet manager exists and if not creates one
         if(GameObject.FindWithTag("BulletManager"))
@@ -43,6 +52,12 @@ public class GunScript : MonoBehaviour
         _bulletPool = new ObjectPool(bulletPrefab, 6, _bulletManager);
 
         _currentAmmo = _maxAmmo;
+        StoreAttachData();
+    }
+
+    private void StoreAttachData()
+    {
+        _attachData = new AttachData(this.transform);
     }
     
     private void Update()
@@ -52,8 +67,12 @@ public class GunScript : MonoBehaviour
         {
             return;
         }
-        CheckInput();
-        CheckAmmo();
+
+        if (isHeld)
+        {
+            CheckInput();
+            CheckAmmo();
+        }
     }
 
     private void CheckInput()
@@ -140,5 +159,86 @@ public class GunScript : MonoBehaviour
                 enemy.transform.GetComponent<AIPerception>().HearNoise(this.transform.position);
             }
         }
+    }
+
+    //Throw event called by player script
+    public void Throw()
+    {
+        isHeld = false;
+        transform.parent = null;
+        _rigidbody.useGravity = true;
+        _rigidbody.isKinematic = false;
+        Vector3 _toApply = transform.forward;
+        _rigidbody.AddForce(_toApply*20f, ForceMode.Impulse);
+        StartCoroutine(WaitForThrow(2f));
+    }
+
+    //Called when hit enemy / after 2 seconds of thrown
+    private void ResetGun()
+    {
+        //Additional check here to prevent editor warning as this will get called twice once by trigger, secondly by coroutine if enemy hit
+        if (!_rigidbody.isKinematic)
+        {
+            //Clears velocity
+            _rigidbody.velocity = new Vector3(0, 0, 0);
+            _rigidbody.angularVelocity = new Vector3(0, 0, 0);
+        }
+        
+        //Disables Physics
+        _rigidbody.useGravity = false;
+        _rigidbody.isKinematic = true;
+        
+        //Reset Transform
+        this.transform.parent = _attachData.GetParent();
+        this.transform.localPosition = _attachData.GetPosition();
+        this.transform.localRotation = _attachData.GetRotation();
+        isHeld = true;
+    }
+
+    //Reset gun timer
+    IEnumerator WaitForThrow(float waitDuration)
+    {
+        yield return new WaitForSeconds(waitDuration);
+        ResetGun();
+    }
+
+    //Purely for colliding with enemy once thrown
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isHeld&other.CompareTag("Enemy"))
+        {
+            _currentAmmo = _maxAmmo;
+            UpdateUI();
+            ResetGun();
+        }
+    }
+}
+
+// Decided to make this a class for flexibility in being able to apply to more than just gun
+class AttachData
+{
+    private Transform parent;
+    private Vector3 position;
+    private Quaternion rotation;
+
+    public AttachData(Transform obj)
+    {
+        parent = obj.transform.parent;
+        position = obj.transform.localPosition;
+        rotation = obj.transform.localRotation;
+    }
+
+    //Get Functions
+    public Transform GetParent()
+    {
+        return parent;
+    }
+    public Vector3 GetPosition()
+    {
+        return position;
+    }
+    public Quaternion GetRotation()
+    {
+        return rotation;
     }
 }

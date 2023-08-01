@@ -75,12 +75,21 @@ public class Player : MonoBehaviour, ICharacter
         //Hard coded reset button, not sure if keeping in final build
         if (Input.GetKeyDown(KeyCode.R))
         {
-            LoadCheckPoint();
+            ThrowGun();
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
             Pause();
+        }
+    }
+
+    private void ThrowGun()
+    {
+        var gunRef = GetComponentInChildren<GunScript>();
+        if (gunRef)
+        {
+            gunRef.Throw();
         }
     }
 
