@@ -15,6 +15,7 @@ public class AttackPlayer : ActionNode
     protected override State OnUpdate()
     {
         blackboard.player.TakeDamage(1);
+        Debug.Log("Attacked Player");
         return State.Success;
     }
 }

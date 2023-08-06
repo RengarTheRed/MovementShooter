@@ -19,12 +19,10 @@ MonoBehaviour:
   - rid: 545320739180642315
   - rid: 545320747769790487
   - rid: 545320747769790493
-  - rid: 545320747769790494
   - rid: 545320747769790498
   - rid: 6730085816044879872
   - rid: 6730085816044879873
   - rid: 6730085816044879875
-  - rid: 6730085816044879876
   - rid: 6730085816044879877
   - rid: 6730085816044879878
   - rid: 6730085816044879880
@@ -33,19 +31,17 @@ MonoBehaviour:
   - rid: 6730085831916126211
   - rid: 6730085831916126212
   - rid: 6730085831916126213
-  - rid: 6730085831916126214
-  - rid: 6730085831916126215
   - rid: 6730085850687471616
   treeState: 0
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
-    soundLocation: {x: 64.89042, y: 1.5663296, z: -0.2029649}
+    soundLocation: {x: 71.23658, y: 1.672735, z: 7.6814356}
     seePlayer: 0
     player: {fileID: 0}
-    hearShot: 1
-  viewPosition: {x: 484.8, y: 135.2, z: 0}
-  viewScale: {x: 0.2842624, y: 0.2842624, z: 1}
+    hearShot: 0
+  viewPosition: {x: 937.6, y: -240, z: 0}
+  viewScale: {x: 0.49717674, y: 0.49717674, z: 1}
   references:
     version: 2
     RefIds:
@@ -125,29 +121,9 @@ MonoBehaviour:
         drawGizmos: 0
         children:
         - rid: 545320747769790498
-        - rid: 545320747769790494
         - rid: 6730085816044879877
         - rid: 6730085816044879880
         - rid: 6730085816044879878
-    - rid: 545320747769790494
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 5bf1de7b55192c044b45623a2144dfb7
-        position: {x: -1436.4722, y: 1231.2}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-          lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
-          soundLocation: {x: 0, y: 0, z: 0}
-          seePlayer: 0
-          player: {fileID: 0}
-          hearShot: 0
-        description: 'See Player
-
-'
-        drawGizmos: 0
-        message: I see player
     - rid: 545320747769790498
       type: {class: CheckIfSeePlayer, ns: , asm: Assembly-CSharp}
       data:
@@ -182,10 +158,8 @@ MonoBehaviour:
         drawGizmos: 0
         children:
         - rid: 6730085816044879875
-        - rid: 6730085816044879876
         - rid: 6730085831916126213
         - rid: 6730085831916126212
-        - rid: 6730085831916126214
         - rid: 6730085831916126211
     - rid: 6730085816044879873
       type: {class: Sequencer, ns: TheKiwiCoder, asm: Assembly-CSharp}
@@ -205,7 +179,6 @@ MonoBehaviour:
         drawGizmos: 0
         children:
         - rid: 6730085831916126208
-        - rid: 6730085831916126215
         - rid: 6730085831916126209
         - rid: 6730085850687471616
     - rid: 6730085816044879875
@@ -224,23 +197,6 @@ MonoBehaviour:
           hearShot: 0
         description: 
         drawGizmos: 0
-    - rid: 6730085816044879876
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: afe5646fe0cb29e4794d800161a0a378
-        position: {x: -285.59995, y: 1212.4}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-          lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
-          soundLocation: {x: 0, y: 0, z: 0}
-          seePlayer: 0
-          player: {fileID: 0}
-          hearShot: 0
-        description: Hear Sound
-        drawGizmos: 0
-        message: I heard something!
     - rid: 6730085816044879877
       type: {class: MoveToPlayer, ns: , asm: Assembly-CSharp}
       data:
@@ -378,40 +334,6 @@ MonoBehaviour:
         description: 
         drawGizmos: 0
         tolerance: 1
-    - rid: 6730085831916126214
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 0be5da3e83784e14eb6ace77e8725afe
-        position: {x: 171.99992, y: 1212.4}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-          lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
-          soundLocation: {x: 0, y: 0, z: 0}
-          seePlayer: 0
-          player: {fileID: 0}
-          hearShot: 0
-        description: 
-        drawGizmos: 0
-        message: Cleared Sound
-    - rid: 6730085831916126215
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: bfb51c07e1dbad7449646258881ea0f4
-        position: {x: 907.33, y: 1179.2}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-          lastSeenPlayerLocation: {x: 0, y: 0, z: 0}
-          soundLocation: {x: 0, y: 0, z: 0}
-          seePlayer: 0
-          player: {fileID: 0}
-          hearShot: 0
-        description: 
-        drawGizmos: 0
-        message: I'm on patrol!
     - rid: 6730085850687471616
       type: {class: Wait, ns: TheKiwiCoder, asm: Assembly-CSharp}
       data:

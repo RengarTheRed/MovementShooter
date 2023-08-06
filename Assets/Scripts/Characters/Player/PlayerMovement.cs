@@ -65,13 +65,13 @@ public class PlayerMovement : MonoBehaviour
             _bSprinting = Input.GetButton("Sprint");
             _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
         }
-        if (Input.GetButtonDown("Jump"))
+        /*if (Input.GetButtonDown("Jump"))
         {
             Jump();
-        }
+        }*/
     }
 
-    private void Jump()
+    public void Jump()
     {
         if (_bIsGrounded)
         {

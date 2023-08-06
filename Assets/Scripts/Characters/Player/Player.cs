@@ -19,7 +19,7 @@ public class Player : MonoBehaviour, ICharacter
     
     //HP
     public int _maxHP = 10;
-    private int _currentHP;
+    private int _currentHP=10;
 
     private CharacterController _characterController;
 
@@ -129,6 +129,9 @@ public class Player : MonoBehaviour, ICharacter
     public void TakeDamage(int damage)
     {
         _currentHP -= damage;
+        UpdateHPUI();
+        
+        //Call Death
         if (_currentHP < 0)
         {
             

@@ -59,7 +59,7 @@ public class AIPerception : MonoBehaviour
             if (IsInSight(obj))
             {
                 _objectsHit.Add(obj);
-                ReportPlayerSighting();
+                ReportPlayerSighting(obj);
             }
             else
             {
@@ -187,11 +187,10 @@ public class AIPerception : MonoBehaviour
         scanInterval = 1 / scanFrequency;
     }
 
-    private void ReportPlayerSighting()
+    private void ReportPlayerSighting(GameObject obj)
     {
-        Debug.Log("Can see player!");
         bb.seePlayer = true;
-        bb.player = FindFirstObjectByType<Player>();
+        bb.player = obj.GetComponent<Player>();
     }
 
     public void HearNoise(Vector3 soundLocation)

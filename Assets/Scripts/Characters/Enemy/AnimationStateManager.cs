@@ -30,7 +30,7 @@ public class AnimationStateManager : MonoBehaviour
             _animator.SetBool("Moving", false);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        /*if (Input.GetKey(KeyCode.A))
         {
             _animator.SetTrigger("Attack");
         }
@@ -38,6 +38,6 @@ public class AnimationStateManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             _animator.SetTrigger("Death");
-        }
+        }*/
     }
 }
