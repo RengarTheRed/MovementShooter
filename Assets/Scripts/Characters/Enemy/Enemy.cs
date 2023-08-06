@@ -28,4 +28,14 @@ public class Enemy : MonoBehaviour, ICharacter
     {
         _currentHP += heal;
     }
+
+    public void Invincibility()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void InfiniteAmmo()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -15,7 +15,6 @@ public class Bullet : MonoBehaviour
         {
             other.transform.GetComponent<ICharacter>().TakeDamage(_bulletDamage);
             gameObject.SetActive(false);
-            Debug.Log(other.name);
         }
     }
 

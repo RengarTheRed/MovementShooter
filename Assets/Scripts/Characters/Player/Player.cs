@@ -149,6 +149,17 @@ public class Player : MonoBehaviour, ICharacter
         {
             _currentHP = _maxHP;
         }
+        UpdateHPUI();
+    }
+
+    public void Invincibility()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void InfiniteAmmo()
+    {
+        throw new System.NotImplementedException();
     }
 
     //Function that displays gameover HUD etc

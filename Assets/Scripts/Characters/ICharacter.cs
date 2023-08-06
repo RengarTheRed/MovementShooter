@@ -6,4 +6,6 @@ public interface ICharacter
 {
     public void TakeDamage(int damage);
     public void Heal(int heal);
+    public void Invincibility();
+    public void InfiniteAmmo();
 }
