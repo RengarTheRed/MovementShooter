@@ -23,11 +23,16 @@ public class GunScript : MonoBehaviour
     private float _rechargeDelay=3;
     private float _rechargeTimer;
 
+    //Player ref
     private Player _player;
     private bool isHeld = true;
 
+    //Attach info
     private AttachData _attachData;
     private Rigidbody _rigidbody;
+
+    //Infinite Ammo set by Player Script
+    private bool _bInfiniteAmmo = false;
 
     // Start creates manager object and pools
     private void Start()
@@ -126,9 +131,17 @@ public class GunScript : MonoBehaviour
         
         //Reports noise event to AI and starts recharge timer
         MakeNoise();
-        
+
+        //If Infinite Ammo active end function here
+        if(_bInfiniteAmmo)
+        {
+            return;
+        }
+
         //Updates Ammo Counts
         //If all ammo gone then recharge timer is longer
+        _currentAmmo--;
+
         if (_currentAmmo <= 0)
         {
             _rechargeTimer = _rechargeDelay;
@@ -137,7 +150,6 @@ public class GunScript : MonoBehaviour
         {
             _rechargeTimer = _rechargeDelay / 2;
         }
-        _currentAmmo--;
         UpdateUI();
     }
 
@@ -211,6 +223,22 @@ public class GunScript : MonoBehaviour
             UpdateUI();
             ResetGun();
         }
+    }
+
+    public void InfiniteAmmo()
+    {
+        //Maxes ammo then sets infinite ammo
+        _currentAmmo = _maxAmmo;
+        UpdateUI();
+
+        _bInfiniteAmmo = true;
+        StartCoroutine(InfiniteAmmoTimer(3));
+    }
+
+    IEnumerator InfiniteAmmoTimer(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _bInfiniteAmmo = false;
     }
 }
 

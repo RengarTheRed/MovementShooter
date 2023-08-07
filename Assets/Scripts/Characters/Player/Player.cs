@@ -20,10 +20,14 @@ public class Player : MonoBehaviour, ICharacter
     //HP
     public int _maxHP = 10;
     private int _currentHP=10;
+    private bool _bInvincible = false;
 
     private CharacterController _characterController;
 
     private float _gameTimer=0f;
+
+    //Gun
+    private GunScript _gunScript;
 
     //Start sets up variables
     //May Create HUD at runtime instead of grabbing from scene
@@ -35,9 +39,13 @@ public class Player : MonoBehaviour, ICharacter
         _checkpointManager = FindFirstObjectByType<CheckpointManager>();
         _characterController = GetComponent<CharacterController>();
 
+        //HP SETUP
         _currentHP = _maxHP;
         int maxAmmo = GetComponentInChildren<GunScript>()._maxAmmo;
         _playerHUD.SetupHUD(_maxHP, maxAmmo);
+
+        //GRABS GUN COMP
+        _gunScript = GetComponentInChildren<GunScript>();
     }
     
     //Update Checks Input & Interaction
@@ -128,13 +136,16 @@ public class Player : MonoBehaviour, ICharacter
     //Damage Function Implementation
     public void TakeDamage(int damage)
     {
-        _currentHP -= damage;
-        UpdateHPUI();
-        
-        //Call Death
-        if (_currentHP < 0)
+        if(!_bInvincible)
         {
-            
+            _currentHP -= damage;
+            UpdateHPUI();
+        
+            //Call Death
+            if (_currentHP < 0)
+            {
+                Death();
+            }
         }
     }
 
@@ -154,12 +165,13 @@ public class Player : MonoBehaviour, ICharacter
 
     public void Invincibility()
     {
-        throw new System.NotImplementedException();
+        _bInvincible = true;
+        StartCoroutine(InvincibilityTimer(2));
     }
 
     public void InfiniteAmmo()
     {
-        throw new System.NotImplementedException();
+        _gunScript.InfiniteAmmo();
     }
 
     //Function that displays gameover HUD etc
@@ -177,5 +189,10 @@ public class Player : MonoBehaviour, ICharacter
     public void SetCheckPoint(int newCheckPointID)
     {
         _CurrentCheckPointID = newCheckPointID;
+    }
+    IEnumerator InvincibilityTimer(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _bInvincible = false;
     }
 }
