@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -35,6 +36,17 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _endRun;
     private float endRunTimer = .1f;
     
+    
+    // Input System Reference
+    
+    // assign the actions asset to this field in the inspector:
+    public InputActionAsset actions;
+
+    // private field to store move action reference
+    private InputAction moveAction;
+    
+    
+    
     // Get character-controller on start if null then print error
     void Start()
     {
@@ -43,6 +55,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("No Character Controller on Player");
         }
+        
+        // find the "move" action, and keep the reference to it, for use in Update
+        moveAction = actions.FindActionMap("Player").FindAction("Move");
     }
 
     // Check if player is colliding with wall/floor then check movement input and apply
@@ -52,23 +67,26 @@ public class PlayerMovement : MonoBehaviour
         _bIsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         //Movement related functions
-        CheckInput();
         CheckGravity();
+        _move = GetMovementInput();
         ApplyMovement();
     }
 
-    //Split update into smaller functions
-    private void CheckInput()
+    public void Sprint()
     {
-        if (_bIsGrounded)
-        {
-            _bSprinting = Input.GetButton("Sprint");
-            _move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
-        }
-        /*if (Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }*/
+        _bSprinting = true;
+    }
+
+    public void Crouch()
+    {
+        
+    }
+
+    private Vector3 GetMovementInput()
+    {
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        Vector3 tmp = transform.right * moveInput.x + transform.forward * moveInput.y;
+        return tmp;
     }
 
     public void Jump()

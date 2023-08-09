@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using Mono.Cecil.Cil;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class GunScript : MonoBehaviour
@@ -65,17 +66,20 @@ public class GunScript : MonoBehaviour
         _attachData = new AttachData(this.transform);
     }
 
-    public void FireEvent()
+    public void FireEvent(InputAction.CallbackContext ctx)
     {
         if (isHeld)
         {
-            if (_currentAmmo > 0)
+            if (ctx.performed)
             {
-                ShootProjectile();
-            }
-            else
-            {
-                FailShoot();
+                if (_currentAmmo > 0)
+                {
+                    ShootProjectile();
+                }
+                else
+                {
+                    FailShoot();
+                }
             }
         }
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 261.89923, g: 324.44937, b: 429.42596, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -94,7 +94,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: de98c4900c79dce418a60af54b98c5ac, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 3cd35e303f816944dac58bfe8e936abf, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 891d5a1a0a12c7a479b011df63ea2363, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -42863,17 +42863,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4134709563908240, guid: b1bfe5df5155ab7468e4fa16fd1b4899, type: 3}
   m_PrefabInstance: {fileID: 1338770430}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1340210937 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6483832168177372398, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
-  m_PrefabInstance: {fileID: 8475243787874733210}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d20a56cecc8b0b49abc8209232282bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1341531133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46765,103 +46754,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5940424805649638393, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
   m_PrefabInstance: {fileID: 8475243787874733210}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1461038668 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5075831065390210716, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
-  m_PrefabInstance: {fileID: 8475243787874733210}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461038662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 269626f5716468f4a804aa8355163626, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1461038671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461038662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 4784610ce32ad6547a420b1ca0698644, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f2d21906-3438-4894-8eb2-285e6dedeed4
-    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ce3ce8c8-db39-43be-88c9-c246bd6d3dda
-    m_ActionName: 'Player/Look[/Mouse/delta]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1340210937}
-        m_TargetAssemblyTypeName: GunScript, Assembly-CSharp
-        m_MethodName: FireEvent
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 1eb3eab5-4635-490a-89e3-1b3b1b317fde
-    m_ActionName: 'Player/Fire[/Mouse/leftButton]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1461038668}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: Jump
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c4ba4f06-8037-4ad5-ac85-edabd37cb3a7
-    m_ActionName: 'Player/Jump[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 563385206}
-        m_TargetAssemblyTypeName: HUD, Assembly-CSharp
-        m_MethodName: Pause
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 7db30587-b99b-4af7-8bd8-bb57e7cc641c
-    m_ActionName: 'Player/Pause[/Keyboard/p]'
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1001 &1462206834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71240,6 +71132,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2559787443254038717, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 563385206}
     - target: {fileID: 5940424805649638393, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
       propertyPath: m_Name
       value: Player
@@ -71287,10 +71183,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5940424805649638393, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1461038671}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -17,9 +17,8 @@ public class PlayerCamera : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
-    
-    //Each frame check mouse input and applies rotation to body and move camera up/downs
-    void Update()
+
+    public void MoveCamera()
     {
         var mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         var mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -28,5 +27,6 @@ public class PlayerCamera : MonoBehaviour
         xRotate = Mathf.Clamp(xRotate, -90f, 90f);
         transform.localRotation = Quaternion.Euler(xRotate, 0f, 0f);
         playerBody.Rotate(Vector3.up, mouseX);
+        
     }
 }

@@ -51,7 +51,6 @@ public class Player : MonoBehaviour, ICharacter
     //Update Checks Input & Interaction
     private void Update()
     {
-        CheckInput();
         InteractionRayCast();
         UpdateTimer();
     }
@@ -69,30 +68,17 @@ public class Player : MonoBehaviour, ICharacter
         gameObject.transform.position = _checkpointManager.GetPlayerCheckPoint(_CurrentCheckPointID).position;
         _characterController.enabled = true;
     }
-
-    //Input Checking
-    private void CheckInput()
+    
+    //Public Functions called by the Player Input Actions, see bindings there.
+    public void Interact()
     {
-        if (Input.GetButtonDown("Interact"))
+        if (hit.transform != null)
         {
-            if (hit.transform!=null)
-            {
-                hit.transform.GetComponent<IInteractable>().Interact(gameObject);
-            }
-        }
-        //Hard coded reset button, not sure if keeping in final build
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ThrowGun();
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Pause();
+            hit.transform.GetComponent<IInteractable>().Interact(gameObject);
         }
     }
 
-    private void ThrowGun()
+    public void ThrowGun()
     {
         var gunRef = GetComponentInChildren<GunScript>();
         if (gunRef)
@@ -101,6 +87,12 @@ public class Player : MonoBehaviour, ICharacter
         }
     }
 
+    public void Pause()
+    {
+        _playerHUD.Pause();
+    }
+    
+    
     //Raycasts from raycast origin and checks for "Interactable" layer, if so pop-up on UI
     private void InteractionRayCast()
     {
@@ -128,10 +120,6 @@ public class Player : MonoBehaviour, ICharacter
         _playerHUD.UpdateHP(_currentHP);
     }
 
-    private void Pause()
-    {
-        _playerHUD.Pause();
-    }
 
     //Damage Function Implementation
     public void TakeDamage(int damage)
