@@ -64,27 +64,12 @@ public class GunScript : MonoBehaviour
     {
         _attachData = new AttachData(this.transform);
     }
-    
-    private void Update()
-    {
-        //To prevent firing when paused
-        if (Time.timeScale == 0)
-        {
-            return;
-        }
 
+    public void FireEvent()
+    {
         if (isHeld)
         {
-            CheckInput();
-            CheckAmmo();
-        }
-    }
-
-    private void CheckInput()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (_currentAmmo>0)
+            if (_currentAmmo > 0)
             {
                 ShootProjectile();
             }
