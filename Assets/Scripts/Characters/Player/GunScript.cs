@@ -66,11 +66,11 @@ public class GunScript : MonoBehaviour
         _attachData = new AttachData(this.transform);
     }
 
-    public void FireEvent(InputAction.CallbackContext ctx)
+    public void FireEvent(InputAction.CallbackContext cbContext)
     {
         if (isHeld)
         {
-            if (ctx.performed)
+            if (cbContext.performed)
             {
                 if (_currentAmmo > 0)
                 {
