@@ -7,13 +7,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //Uses character controller over rigidbody
-    private CharacterController _charController;
-    //Ground checking variables
+    [Header("Ground Check Variables")]
     public Transform groundCheck;
     public float groundDistance = .4f;
     //LayerMasks to use
     public LayerMask groundMask;
+    
+    //Uses character controller over rigidbody
+    private CharacterController _charController;
+    private Transform _playerTransform;
     
     //Movement Vectors
     private Vector3 _move;
@@ -31,6 +33,11 @@ public class PlayerMovement : MonoBehaviour
     private float _maxSpeed = 12f;
     private float _gravity = -9.81f;
     private float _jumpheight = 3f;
+    
+    //Crouching / Sliding variables
+    private float _standScale;
+    private float _crouchScale;
+    public Transform _gunTransform;
 
     private Collider _wallRunningObject;
     private Coroutine _endRun;
@@ -40,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _stpsprint;
     private bool _bSprintCoroutineRunning = false;
     
-    // Input Actions References
+    [Header("Input Action Map")]
     public InputActionAsset actions;
     private InputAction _moveAction;
 
@@ -55,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
         
         // find the "move" action, and keep the reference to it, for use in Update
         _moveAction = actions.FindActionMap("Player").FindAction("Move");
+        _playerTransform = transform;
+        _standScale = _playerTransform.localScale.y;
+        _crouchScale = _standScale / 2;
     }
 
     // Check if player is colliding with wall/floor then check movement input and apply
@@ -78,10 +88,33 @@ public class PlayerMovement : MonoBehaviour
             _bSprinting = !_bSprinting;
         }
     }
-
-    public void Crouch()
+    
+    public void Crouch(InputAction.CallbackContext cbContext)
     {
-        
+        if (cbContext.started)
+        {
+            Debug.Log("Started Crouch");
+            ToggleCrouch(true);
+        }
+
+        if (cbContext.canceled)
+        {
+            Debug.Log("Stopped Crouching");
+            ToggleCrouch(false);
+        }
+    }
+
+    private void ToggleCrouch(bool toCrouch)
+    {
+        if (toCrouch)
+        {
+            _playerTransform.localScale = new Vector3(_playerTransform.localScale.x, _crouchScale, _playerTransform.localScale.z);
+
+        }
+        else
+        {
+            _playerTransform.localScale = new Vector3(_playerTransform.localScale.x, _standScale, _playerTransform.localScale.z);
+        }
     }
     private Vector3 GetMovementInput()
     {

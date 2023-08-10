@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, ICharacter
 {
-    //Interaction Setup
-    private RaycastHit hit;
+    [Header("Interaction Variables")]
     public LayerMask _interactableLayer;
+    private RaycastHit hit;
     private Transform _raycastOrigin;
     
     //Checkpoint System Setup
@@ -17,16 +17,14 @@ public class Player : MonoBehaviour, ICharacter
     //HUD
     private HUD _playerHUD;
     
-    //HP
+    [Header("HP")]
     public int _maxHP = 10;
     private int _currentHP=10;
     private bool _bInvincible = false;
-
-    private CharacterController _characterController;
-
     private float _gameTimer=0f;
 
-    //Gun
+    //Script Refs
+    private CharacterController _characterController;
     private GunScript _gunScript;
 
     //Start sets up variables

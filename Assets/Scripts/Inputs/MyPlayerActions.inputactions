@@ -378,7 +378,7 @@
                     "name": "",
                     "id": "5e1971eb-bb17-4aa5-9c65-f28896234735",
                     "path": "<Keyboard>/ctrl",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
