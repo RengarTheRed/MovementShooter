@@ -35,7 +35,7 @@ public class Player : MonoBehaviour, ICharacter
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
         _playerHUD = FindFirstObjectByType<HUD>();
         _checkpointManager = FindFirstObjectByType<CheckpointManager>();
-        _characterController = GetComponent<CharacterController>();
+        _characterController = GetComponentInChildren<CharacterController>();
 
         //HP SETUP
         _currentHP = _maxHP;

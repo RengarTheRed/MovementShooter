@@ -1,12 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TheKiwiCoder;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+using BehaviorDesigner.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
-using Blackboard = TheKiwiCoder.Blackboard;
 
 public class AIPerception : MonoBehaviour
 {
@@ -27,15 +23,16 @@ public class AIPerception : MonoBehaviour
     private Collider[] _collidersHit = new Collider[50];
     public List<GameObject> _objectsHit = new List<GameObject>();
     public LayerMask blockingLayers;
-    private Blackboard bb;
-    
+    public Transform perceptionOrigin;
+
+    public bool _bSeePlayer = false;
+
     //Clear Timer
     private float clearTimer = 3;
 
     private void Start()
     {
         scanInterval = 1 / scanFrequency;
-        bb = GetComponent<BehaviourTreeRunner>().tree.blackboard;
     }
 
     private void Update()
@@ -50,8 +47,7 @@ public class AIPerception : MonoBehaviour
 
     private void Scan()
     {
-        count = Physics.OverlapSphereNonAlloc(transform.position, distance, _collidersHit, layersToScan,
-            QueryTriggerInteraction.Collide);
+        count = Physics.OverlapSphereNonAlloc(perceptionOrigin.position, distance, _collidersHit, layersToScan, QueryTriggerInteraction.Collide);
         _objectsHit.Clear();
         for (int i = 0; i < count; i++)
         {
@@ -71,7 +67,7 @@ public class AIPerception : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     public bool IsInSight(GameObject obj)
     {
-        Vector3 origin = transform.position;
+        Vector3 origin = perceptionOrigin.position;
         Vector3 dest = obj.transform.position;
         Vector3 direction = dest-origin;
 
@@ -81,7 +77,7 @@ public class AIPerception : MonoBehaviour
         }
 
         direction.y = 0;
-        float deltaAngle = Vector3.Angle(direction, transform.forward);
+        float deltaAngle = Vector3.Angle(direction, perceptionOrigin.forward);
         if (deltaAngle > angle)
         {
             return false;
@@ -107,7 +103,11 @@ public class AIPerception : MonoBehaviour
         Vector3[] vertices = new Vector3[numVertices];
         int[] triangles = new int[numVertices];
 
-        Vector3 bottomCentre = Vector3.zero;
+        Vector3 bottomCentre = perceptionOrigin.localPosition;
+        //Vector3 bottomLeft = Quaternion.Euler(perceptionOrigin.localPosition.x, perceptionOrigin.localPosition.y - angle, perceptionOrigin.localPosition.z) * Vector3.forward * distance;
+        //Vector3 bottomRight = Quaternion.Euler(perceptionOrigin.localPosition.x, perceptionOrigin.localPosition.y + angle, perceptionOrigin.localPosition.z) * Vector3.forward * distance;
+        
+        //Vector3 bottomCentre = Vector3.zero;
         Vector3 bottomLeft = Quaternion.Euler(0, -angle, 0) * Vector3.forward * distance;
         Vector3 bottomRight = Quaternion.Euler(0, angle, 0) * Vector3.forward * distance;
 
@@ -187,19 +187,20 @@ public class AIPerception : MonoBehaviour
         scanInterval = 1 / scanFrequency;
     }
 
+    //Sets blackboard variables for see player
     private void ReportPlayerSighting(GameObject obj)
     {
-        bb.seePlayer = true;
-        bb.player = obj.GetComponent<Player>();
+        Debug.Log(("Player has been sighted"));
+        _bSeePlayer = true;
     }
 
+    //Sets blackboard variables for noise report
     public void HearNoise(Vector3 soundLocation)
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (agent.CalculatePath(soundLocation, agent.path))
         {
-            bb.soundLocation = soundLocation;
-            bb.hearShot = true;
+            
         }
         else
         {
@@ -210,7 +211,7 @@ public class AIPerception : MonoBehaviour
     private IEnumerator ClearSight(float duration)
     {
         yield return new WaitForSeconds(duration);
-        bb.seePlayer = false;
+        
     }
 
     private void OnDrawGizmos()

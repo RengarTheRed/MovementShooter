@@ -84,6 +84,11 @@ public class GunScript : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        CheckAmmo();
+    }
+
     private void CheckAmmo()
     {
         if (_currentAmmo < _maxAmmo)

@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask;
     
     //Uses character controller over rigidbody
-    private CharacterController _charController;
-    private Transform _playerTransform;
+    public CharacterController _charController;
+    public Transform _playerTransform;
     
     //Movement Vectors
     private Vector3 _move;
@@ -51,10 +51,12 @@ public class PlayerMovement : MonoBehaviour
     public InputActionAsset actions;
     private InputAction _moveAction;
 
+    private float _cameraOffset = .75f;
+
     // Get character-controller on start if null then print error
     void Start()
     {
-        _charController = GetComponent<CharacterController>();
+        //_charController = GetComponentInChildren<CharacterController>();
         if (_charController == null)
         {
             Debug.Log("No Character Controller on Player");
@@ -62,7 +64,6 @@ public class PlayerMovement : MonoBehaviour
         
         // find the "move" action, and keep the reference to it, for use in Update
         _moveAction = actions.FindActionMap("Player").FindAction("Move");
-        _playerTransform = transform;
         _standScale = _playerTransform.localScale.y;
         _crouchScale = _standScale / 2;
     }
@@ -88,7 +89,18 @@ public class PlayerMovement : MonoBehaviour
             _bSprinting = !_bSprinting;
         }
     }
-    
+
+    public void MoveInput(InputAction.CallbackContext cbContext)
+    {
+        if (cbContext.performed)
+        {
+            moveInput = _moveAction.ReadValue<Vector2>();
+        }
+        if (cbContext.canceled)
+        {
+            moveInput = new Vector2(0, 0);
+        }
+    }
     public void Crouch(InputAction.CallbackContext cbContext)
     {
         if (cbContext.started)
@@ -109,16 +121,20 @@ public class PlayerMovement : MonoBehaviour
         if (toCrouch)
         {
             _playerTransform.localScale = new Vector3(_playerTransform.localScale.x, _crouchScale, _playerTransform.localScale.z);
+            _gunTransform.localPosition = new Vector3(0, _cameraOffset / 2, 0);
+            //_gunTransform.localScale = new Vector3(_gunTransform.localScale.x, 2, _gunTransform.localScale.z);
 
         }
-        else
+        /*else
         {
             _playerTransform.localScale = new Vector3(_playerTransform.localScale.x, _standScale, _playerTransform.localScale.z);
-        }
+            _gunTransform.localPosition = new Vector3(0, _cameraOffset, 0);
+        }*/
     }
+
+    private Vector2 moveInput;
     private Vector3 GetMovementInput()
     {
-        Vector2 moveInput = _moveAction.ReadValue<Vector2>();
         Vector3 tmpMove = transform.right * moveInput.x + transform.forward * moveInput.y;
         
         if (Mathf.Abs(moveInput.magnitude)<.1f)
@@ -195,7 +211,6 @@ public class PlayerMovement : MonoBehaviour
         if (_bSprinting)
         {
             _charController.Move(_move * (_maxSpeed * Time.deltaTime));
-            //GetComponent<Rigidbody>().AddForce();
         }
         else
         {
