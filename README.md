@@ -1,22 +1,29 @@
 # Movement Shooter
-Movement Shooter made as a project for my Mastered Bootcamp. This game is a 1st-person shooter with a major emphasis on movement mechanics such as crouch sliding, wall-running and gravity manipulation.
+Movement Shooter made as a project for my Mastered Bootcamp. This game is a 1st-person shooter with a major emphasis on movement mechanics such as crouch sliding, wall-running and gravity manipulation (Gravity is being 'dropped').
 Please bear in mind that this project is very early in development so many things listed below may not be implemented yet.
 
 ## Instructions 
-To open downloaded project in editor (bear in mind assets are not being pushed as it would violate EULA)
+To open downloaded project in editor (bear in mind external assets (Art etc) are not being pushed as it would violate EULA)
 1. Unzip project if downloaded as ZIP
 2. Open Unity projects tab
 3. Click Open
 4. Navigate to project root folder
 5. Click Open
 
+## External Assets
+For external assets please make a folder named "External" in the Asset folder and follow the below instructions. I will not be providing these assets as these are all paid and are subject to their own EULA's.
+These assets are required for this project to work as is (some pieces may work without). Please view the asset list to see all that's required.
+
 ### Getting project to work with Synty Sci-Fi Space
-To get the project to work with said pack provided you have your own copy.
 1. Follow the above instructions.
-2. Import the Synty Sci-Fi Space Pack
-3. Move the folder created into the Synty Folder
-4. Follow the Synty video tutorial to upgrade to URP (This project is using the HDRP, the steps are similar just click the HDRP instead of URP options). [^1]
-5. Enjoy
+2. Create a folder named "Synty" within the "External" folder.
+3. Import the Synty Sci-Fi Space Pack
+4. Move the folder created into the Synty Folder
+5. Follow the Synty video tutorial to upgrade to URP (This project is using the HDRP, the steps are similar just click the HDRP instead of URP options). [^1]
+
+### Importing Behavior Designer Plug-in
+1. Import the asset into the project
+2. Move into the "External" folder within assets.
 
 There will be a build version in many weeks time.
 
@@ -43,6 +50,8 @@ Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googl
 
 ### Assets
 - Synty Sci-Fi Space Pack [^2]
+- Behavior Designer [^3]
 
 [^1]: Synty Upgrading Asset tutorial https://www.youtube.com/watch?v=KpTK-OraZ-g
 [^2]: Synty Sci-Fi Space Pack https://syntystore.com/en-gb/products/polygon-sci-fi-space-pack
+[^3]: Behavior Designer https://assetstore.unity.com/packages/tools/visual-scripting/behavior-designer-behavior-trees-for-everyone-15277
