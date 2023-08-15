@@ -27,6 +27,7 @@ public class AIPerception : MonoBehaviour
 
     public bool _bSeePlayer = false;
     public bool _bIsMoving = false;
+    public bool _bHearSound = false;
 
     //Clear Timer
     private float clearTimer = 3;
