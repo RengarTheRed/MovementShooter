@@ -26,6 +26,7 @@ public class AIPerception : MonoBehaviour
     public Transform perceptionOrigin;
 
     public bool _bSeePlayer = false;
+    public bool _bIsMoving = false;
 
     //Clear Timer
     private float clearTimer = 3;
