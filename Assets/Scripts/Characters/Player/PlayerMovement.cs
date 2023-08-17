@@ -35,9 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float _jumpheight = 3f;
     
     //Crouching / Sliding variables
-    private float _standScale;
-    private float _crouchScale;
-    public Transform _gunTransform;
+    public Transform _cameraTransform;
 
     private Collider _wallRunningObject;
     private Coroutine _endRun;
@@ -50,8 +48,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Input Action Map")]
     public InputActionAsset actions;
     private InputAction _moveAction;
-
-    private float _cameraOffset = .75f;
+    
+    [SerializeField] private float[] _cameraOffsets;
+    [SerializeField] private Transform[] _colliderGroups;
 
     // Get character-controller on start if null then print error
     void Start()
@@ -64,8 +63,6 @@ public class PlayerMovement : MonoBehaviour
         
         // find the "move" action, and keep the reference to it, for use in Update
         _moveAction = actions.FindActionMap("Player").FindAction("Move");
-        _standScale = _playerTransform.localScale.y;
-        _crouchScale = _standScale / 2;
     }
 
     // Check if player is colliding with wall/floor then check movement input and apply
@@ -105,13 +102,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (cbContext.started)
         {
-            Debug.Log("Started Crouch");
             ToggleCrouch(true);
         }
 
         if (cbContext.canceled)
         {
-            Debug.Log("Stopped Crouching");
             ToggleCrouch(false);
         }
     }
@@ -120,16 +115,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (toCrouch)
         {
-            _playerTransform.localScale = new Vector3(_playerTransform.localScale.x, _crouchScale, _playerTransform.localScale.z);
-            _gunTransform.localPosition = new Vector3(0, _cameraOffset / 2, 0);
-            //_gunTransform.localScale = new Vector3(_gunTransform.localScale.x, 2, _gunTransform.localScale.z);
-
+            _cameraTransform.localPosition = new Vector3(0, _cameraOffsets[1], 0);
+            _colliderGroups[1].gameObject.SetActive(true);
+            _colliderGroups[0].gameObject.SetActive(false);
+            
         }
-        /*else
+        else
         {
-            _playerTransform.localScale = new Vector3(_playerTransform.localScale.x, _standScale, _playerTransform.localScale.z);
-            _gunTransform.localPosition = new Vector3(0, _cameraOffset, 0);
-        }*/
+            _cameraTransform.localPosition = new Vector3(0, _cameraOffsets[0], 0);
+            _colliderGroups[0].gameObject.SetActive(true);
+            _colliderGroups[1].gameObject.SetActive(false);
+        }
     }
 
     private Vector2 moveInput;

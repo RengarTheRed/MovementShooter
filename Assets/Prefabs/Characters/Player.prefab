@@ -1752,8 +1752,14 @@ MonoBehaviour:
     m_Bits: 64
   _charController: {fileID: 1322862681671595265}
   _playerTransform: {fileID: 2453578629749960057}
-  _gunTransform: {fileID: 8592785106883543023}
+  _cameraTransform: {fileID: 8592785106883543023}
   actions: {fileID: -944628639613478452, guid: 4784610ce32ad6547a420b1ca0698644, type: 3}
+  _cameraOffsets:
+  - 0.75
+  - 0.1
+  _colliderGroups:
+  - {fileID: 2453578629749960057}
+  - {fileID: 7780353027562186398}
 --- !u!114 &463343723472171347
 MonoBehaviour:
   m_ObjectHideFlags: 0
