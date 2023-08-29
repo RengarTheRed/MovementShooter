@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,17 +11,20 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check Variables")]
     public Transform groundCheck;
     public float groundDistance = .4f;
-    //LayerMasks to use
+    //Layermask to use as ground
     public LayerMask groundMask;
     
-    //Uses character controller over rigidbody
-    public CharacterController _charController;
-    public Transform _playerTransform;
+    //Uses character controller & rigidbody for moving
+    [Header("Movement Components")]
+    [SerializeField] private CharacterController _charController;
+    [SerializeField] private Rigidbody _rigidbody;
     
     //Movement Vectors
     private Vector3 _move;
     private Vector3 _verticalVelocity;
     private Vector3 _wallJumpVelocity;
+    private Vector2 moveInput;
+    private Vector3 _wallMove;
 
     //Booleans set for wall / ground / sprinting
     private bool _bWallRunning = false;
@@ -33,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private float _maxSpeed = 12f;
     private float _gravity = -9.81f;
     private float _jumpheight = 3f;
-    
+
     //Crouching / Sliding variables
     public Transform _cameraTransform;
 
@@ -70,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Using this instead of Controller function since that's very buggy
         _bIsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
+        Debug.Log(_bWallRunning);
         //Movement related functions
         CheckGravity();
         _move = GetMovementInput();
@@ -127,8 +131,7 @@ public class PlayerMovement : MonoBehaviour
             _colliderGroups[1].gameObject.SetActive(false);
         }
     }
-
-    private Vector2 moveInput;
+    
     private Vector3 GetMovementInput()
     {
         Vector3 tmpMove = transform.right * moveInput.x + transform.forward * moveInput.y;
@@ -182,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             //Wall running applies gravity at reduced rate
             if (_bWallRunning)
             {
-                _verticalVelocity.y += .5f*(_gravity * Time.deltaTime);
+                _verticalVelocity.y += .3f*(_gravity * Time.deltaTime);
             }
             // Not grounded + Not Wall running apply gravity
             else
@@ -204,13 +207,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMovement()
     {
-        if (_bSprinting)
+        if (_bWallRunning)
         {
-            _charController.Move(_move * (_maxSpeed * Time.deltaTime));
+            _charController.Move(_wallMove * (_moveSpeed* Time.deltaTime));
         }
-        else
+        else if(!_bWallRunning)
         {
-            _charController.Move(_move * (_moveSpeed * Time.deltaTime));
+            if (_bSprinting)
+            {
+                _charController.Move(_move * (_maxSpeed * Time.deltaTime));
+            }
+            else
+            {
+                _charController.Move(_move * (_moveSpeed * Time.deltaTime));
+            }
         }
     }
 
@@ -224,8 +234,10 @@ public class PlayerMovement : MonoBehaviour
                 StopCoroutine(_endRun);
             }
 
-            _move = _charController.velocity.normalized;
             _wallJumpVelocity = new Vector3(0, 0, 0);
+            _wallMove = _charController.velocity.normalized;
+            _wallMove.y = 0;
+            Debug.Log(_wallMove);
             _bWallRunning = true;
             _wallRunningObject = other;
         }

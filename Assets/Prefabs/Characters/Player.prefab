@@ -1751,7 +1751,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _charController: {fileID: 1322862681671595265}
-  _playerTransform: {fileID: 2453578629749960057}
+  _rigidbody: {fileID: 116249072536303929}
   _cameraTransform: {fileID: 8592785106883543023}
   actions: {fileID: -944628639613478452, guid: 4784610ce32ad6547a420b1ca0698644, type: 3}
   _cameraOffsets:
