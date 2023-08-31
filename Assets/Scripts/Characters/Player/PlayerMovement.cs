@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Collider _wallRunningObject;
     private Coroutine _endRun;
-    private float _endRunTimer = .1f;
+    private float _endRunTimer = .4f;
     
     //Sprinting Variables
     private Coroutine _stpsprint;
@@ -237,7 +237,6 @@ public class PlayerMovement : MonoBehaviour
             _wallJumpVelocity = new Vector3(0, 0, 0);
             _wallMove = _charController.velocity.normalized;
             _wallMove.y = 0;
-            Debug.Log(_wallMove);
             _bWallRunning = true;
             _wallRunningObject = other;
         }
