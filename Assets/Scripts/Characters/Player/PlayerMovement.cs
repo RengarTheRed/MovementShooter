@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveInput(InputAction.CallbackContext cbContext)
     {
-        if (cbContext.performed)
+        if (cbContext.performed && !_bWallRunning)
         {
             moveInput = _moveAction.ReadValue<Vector2>();
         }
@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _verticalVelocity.y = Mathf.Sqrt(_jumpheight * -2f * _gravity);
         }
-        if (_bWallRunning &&!_bHasJumped)
+        if (_bWallRunning && !_bHasJumped)
         {
             _bHasJumped = true;
             
@@ -201,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
                 _verticalVelocity.y = 0;
             }
         }
-        _charController.Move(_verticalVelocity*Time.deltaTime);
+        _charController.Move(_verticalVelocity * Time.deltaTime);
         _charController.Move(_wallJumpVelocity * Time.deltaTime);
     }
 
@@ -229,6 +229,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
         {
+            _bWallRunning = true;
             if (_endRun != null)
             {
                 StopCoroutine(_endRun);
@@ -237,7 +238,6 @@ public class PlayerMovement : MonoBehaviour
             _wallJumpVelocity = new Vector3(0, 0, 0);
             _wallMove = _charController.velocity.normalized;
             _wallMove.y = 0;
-            _bWallRunning = true;
             _wallRunningObject = other;
         }
     }
