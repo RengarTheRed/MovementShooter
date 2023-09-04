@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,41 +12,41 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check Variables")]
     public Transform groundCheck;
     public float groundDistance = .4f;
-    //Layermask to use as ground
+    // Layermask to use as ground
     public LayerMask groundMask;
     
-    //Uses character controller & rigidbody for moving
+    // Uses character controller & rigidbody for moving
     [Header("Movement Components")]
     [SerializeField] private CharacterController _charController;
     [SerializeField] private Rigidbody _rigidbody;
     
-    //Movement Vectors
+    // Movement Vectors
     private Vector3 _move;
     private Vector3 _verticalVelocity;
     private Vector3 _wallJumpVelocity;
     private Vector2 moveInput;
     private Vector3 _wallMove;
 
-    //Booleans set for wall / ground / sprinting
+    // Booleans set for wall / ground / sprinting
     private bool _bWallRunning = false;
     private bool _bHasJumped = false;
     private bool _bIsGrounded = false;
     private bool _bSprinting = false;
     
-    //Movement multipliers
+    // Movement multipliers
     private float _moveSpeed = 6f;
     private float _maxSpeed = 12f;
     private float _gravity = -9.81f;
     private float _jumpheight = 3f;
 
-    //Crouching / Sliding variables
+    // Crouching / Sliding variables
     public Transform _cameraTransform;
 
     private Collider _wallRunningObject;
     private Coroutine _endRun;
-    private float _endRunTimer = .4f;
+    private float _endRunTimer = 2f;
     
-    //Sprinting Variables
+    // Sprinting Variables
     private Coroutine _stpsprint;
     private bool _bSprintCoroutineRunning = false;
     
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     // Get character-controller on start if null then print error
     void Start()
     {
-        //_charController = GetComponentInChildren<CharacterController>();
+        // _charController = GetComponentInChildren<CharacterController>();
         if (_charController == null)
         {
             Debug.Log("No Character Controller on Player");
@@ -72,10 +73,9 @@ public class PlayerMovement : MonoBehaviour
     // Check if player is colliding with wall/floor then check movement input and apply
     void Update()
     {
-        //Using this instead of Controller function since that's very buggy
+        // Using this instead of Controller function since that's very buggy
         _bIsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        Debug.Log(_bWallRunning);
-        //Movement related functions
+        // Movement related functions
         CheckGravity();
         _move = GetMovementInput();
         ApplyMovement();
@@ -173,19 +173,19 @@ public class PlayerMovement : MonoBehaviour
             _bHasJumped = true;
             
             _wallJumpVelocity = 50*(transform.position - _wallRunningObject.ClosestPoint(transform.position));
-            _wallJumpVelocity.y = 1;
+            _wallJumpVelocity.y = 2;
         }
     }
 
     private void CheckGravity()
     {
-        //Check if not grounded
+        // Check if not grounded
         if (!_bIsGrounded)
         {
-            //Wall running applies gravity at reduced rate
+            // Wall running applies gravity at reduced rate
             if (_bWallRunning)
             {
-                _verticalVelocity.y += .3f*(_gravity * Time.deltaTime);
+                _verticalVelocity.y += .2f*(_gravity * Time.deltaTime);
             }
             // Not grounded + Not Wall running apply gravity
             else
@@ -224,10 +224,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //When collide with wall sets bool and collider on exit remove
+    // Wall Running Check Logic
+    // Trigger collision for walls
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 7)
+        if (other.gameObject.layer == 7 && !_bIsGrounded)
         {
             _bWallRunning = true;
             if (_endRun != null)
@@ -240,14 +241,28 @@ public class PlayerMovement : MonoBehaviour
             _wallMove.y = 0;
             _wallRunningObject = other;
         }
+        else if (_bIsGrounded)
+        {
+            CoroutineTrigger(.02f);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (_wallRunningObject == other)
         {
-            _endRun = StartCoroutine(EndRun(_endRunTimer));
+            CoroutineTrigger(_endRunTimer);
         }
+    }
+
+    void CoroutineTrigger(float duration)
+    {
+        if (_endRun != null)
+        {
+            StopCoroutine(_endRun);
+        }
+
+        _endRun = StartCoroutine(EndRun(_endRunTimer));
     }
 
     private IEnumerator EndRun(float waitTime)
