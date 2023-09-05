@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Collider _wallRunningObject;
     private Coroutine _endRun;
-    private float _endRunTimer = 2f;
+    private float _endRunTimer = .4f;
     
     // Sprinting Variables
     private Coroutine _stpsprint;
@@ -123,6 +123,10 @@ public class PlayerMovement : MonoBehaviour
             _colliderGroups[1].gameObject.SetActive(true);
             _colliderGroups[0].gameObject.SetActive(false);
             
+            if (_bWallRunning)
+            {
+                EndRunCoroutine(0);
+            }
         }
         else
         {
@@ -185,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
             // Wall running applies gravity at reduced rate
             if (_bWallRunning)
             {
-                _verticalVelocity.y += .2f*(_gravity * Time.deltaTime);
+                //_verticalVelocity.y += .1f*(_gravity * Time.deltaTime);
             }
             // Not grounded + Not Wall running apply gravity
             else
@@ -209,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_bWallRunning)
         {
-            _charController.Move(_wallMove * (_moveSpeed* Time.deltaTime));
+            _charController.Move(_wallMove * ((_moveSpeed) * Time.deltaTime));
         }
         else if(!_bWallRunning)
         {
@@ -230,6 +234,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.layer == 7 && !_bIsGrounded)
         {
+            _bHasJumped = false;
             _bWallRunning = true;
             if (_endRun != null)
             {
@@ -237,13 +242,14 @@ public class PlayerMovement : MonoBehaviour
             }
 
             _wallJumpVelocity = new Vector3(0, 0, 0);
+            _verticalVelocity = new Vector3(0,0,0);
             _wallMove = _charController.velocity.normalized;
             _wallMove.y = 0;
             _wallRunningObject = other;
         }
         else if (_bIsGrounded)
         {
-            CoroutineTrigger(.02f);
+            EndRunCoroutine(.02f);
         }
     }
 
@@ -251,11 +257,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_wallRunningObject == other)
         {
-            CoroutineTrigger(_endRunTimer);
+            EndRunCoroutine(_endRunTimer);
         }
     }
 
-    void CoroutineTrigger(float duration)
+    void EndRunCoroutine(float duration)
     {
         if (_endRun != null)
         {
