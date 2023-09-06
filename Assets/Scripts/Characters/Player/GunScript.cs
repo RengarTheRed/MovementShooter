@@ -12,6 +12,7 @@ using UnityEngine.Serialization;
 public class GunScript : MonoBehaviour
 {
     //Gun Core Variables
+    [Header("Bullets and Shoot Origin")]
     public GameObject bulletPrefab;
     public Transform gunBarrel;
     private Transform _bulletManager;
@@ -24,23 +25,26 @@ public class GunScript : MonoBehaviour
     private float _rechargeDelay=3;
     private float _rechargeTimer;
 
-    //Player ref
+    //Player ref for ammo check
     private Player _player;
     private bool isHeld = true;
 
-    //Attach info
+    //Attach info for throwing
     private AttachData _attachData;
     private Rigidbody _rigidbody;
 
     //Infinite Ammo set by Player Script
     private bool _bInfiniteAmmo = false;
 
+    [Header("Audio")] private AudioSource _audioSource;
+
     // Start creates manager object and pools
     private void Start()
     {
-        //Get Player Script
+        //Get Components
         _player = GetComponentInParent<Player>();
         _rigidbody = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
         
         // Checks if a bullet manager exists and if not creates one
         if(GameObject.FindWithTag("BulletManager"))
@@ -144,6 +148,7 @@ public class GunScript : MonoBehaviour
         {
             _rechargeTimer = _rechargeDelay / 2;
         }
+        _audioSource.Play();
         UpdateUI();
     }
 
