@@ -79,3 +79,7 @@ crashlytics-build.properties
 
 #Lighting Data
 /[Aa]ssets/[Ss]cenes/Game/
+Assets/PlayFabEditorExtensions/Editor/Resources/PlayFabEditorPrefsSO.asset
+Assets/PlayFabEditorExtensions/Editor/Resources/PlayFabEditorPrefsSO.asset.meta
+Assets/PlayFabSDK/Shared/Public/Resources/PlayFabSharedSettings.asset
+Assets/PlayFabSDK/Shared/Public/Resources/PlayFabSharedSettings.asset.meta
