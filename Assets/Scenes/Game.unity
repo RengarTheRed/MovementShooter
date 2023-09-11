@@ -68576,14 +68576,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3380839243770730950, guid: 05665caf3e5c8e24bb35ef98b2346707, type: 3}
-      propertyPath: layersToScan.m_Bits
-      value: 3072
-      objectReference: {fileID: 0}
-    - target: {fileID: 3380839243770730950, guid: 05665caf3e5c8e24bb35ef98b2346707, type: 3}
-      propertyPath: blockingLayers.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7857116096154177609, guid: 05665caf3e5c8e24bb35ef98b2346707, type: 3}
       propertyPath: m_LocalPosition.x
       value: 79.86
@@ -68627,10 +68619,6 @@ PrefabInstance:
     - target: {fileID: 8330413270920607681, guid: 05665caf3e5c8e24bb35ef98b2346707, type: 3}
       propertyPath: m_Name
       value: Enemy_Gun
-      objectReference: {fileID: 0}
-    - target: {fileID: 8330413270920607681, guid: 05665caf3e5c8e24bb35ef98b2346707, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -36,14 +36,38 @@ public class GunScript : MonoBehaviour
     //Infinite Ammo set by Player Script
     private bool _bInfiniteAmmo = false;
 
+    //Dirty way to differenciate between player and enemy gun (Would typically plan in advance)
+    public bool _bPlayerGun = false;
+
     [Header("Audio")] private AudioSource _audioSource;
 
-    // Start creates manager object and pools
+    // Setups Gun for use by Player / Enemy
     private void Start()
     {
-        //Get Components
+        //Gets variables used if player used gun
+        if (_bPlayerGun)
+        {
+            SetPlayerVariables();
+        }
+        SetupGun();
+
+        if (_bPlayerGun)
+        {
+            
+        }
+    }
+
+    //Sets variables used if gun is used by player
+    private void SetPlayerVariables()
+    {
         _player = GetComponentInParent<Player>();
         _rigidbody = GetComponent<Rigidbody>();
+        _attachData = new AttachData(transform);
+    }
+
+    //Setups all variables used / object pool for gun
+    private void SetupGun()
+    {
         _audioSource = GetComponent<AudioSource>();
         
         // Checks if a bullet manager exists and if not creates one
@@ -61,15 +85,11 @@ public class GunScript : MonoBehaviour
         //Populates pool
         _bulletPool = new ObjectPool(bulletPrefab, 6, _bulletManager);
 
+        //Lastly get audio comp and sets ammo
         _currentAmmo = _maxAmmo;
-        StoreAttachData();
     }
 
-    private void StoreAttachData()
-    {
-        _attachData = new AttachData(this.transform);
-    }
-
+    // Gun Fire Event used by Player
     public void FireEvent(InputAction.CallbackContext cbContext)
     {
         if (isHeld)
@@ -88,9 +108,19 @@ public class GunScript : MonoBehaviour
         }
     }
 
+    // Gun Fire Event used by Enemy in Behaviour Tree
+    public void PublicFire()
+    {
+        ShootProjectile();
+    }
+
+    // Update only used if Player Gun
     private void Update()
     {
-        CheckAmmo();
+        if (_bPlayerGun)
+        {
+            CheckAmmo();
+        }
     }
 
     private void CheckAmmo()
@@ -109,7 +139,10 @@ public class GunScript : MonoBehaviour
 
     private void UpdateUI()
     {
-        _player.UpdateAmmoUI(_currentAmmo);
+        if (_player != null)
+        {
+            _player.UpdateAmmoUI(_currentAmmo);
+        }
     }
 
     private void ShootProjectile()
@@ -127,17 +160,17 @@ public class GunScript : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = gunBarrel.forward * 50f;
         
-        //Reports noise event to AI and starts recharge timer
-        MakeNoise();
 
-        //If Infinite Ammo active end function here
+        _audioSource.Play();
+        
+        // If Infinite Ammo active end function here
         if(_bInfiniteAmmo)
         {
             return;
         }
 
-        //Updates Ammo Counts
-        //If all ammo gone then recharge timer is longer
+        // Updates Ammo Counts
+        // If all ammo gone then recharge timer is longer
         _currentAmmo--;
 
         if (_currentAmmo <= 0)
@@ -148,17 +181,22 @@ public class GunScript : MonoBehaviour
         {
             _rechargeTimer = _rechargeDelay / 2;
         }
-        _audioSource.Play();
-        UpdateUI();
+
+        // If Gun used by player report noise event and update UI
+        if (_bPlayerGun)
+        {
+            MakeNoise();
+            UpdateUI();
+        }
     }
 
-    //Plays a bad animation / particle or something
+    // Plays a bad animation / particle or something
     private void FailShoot()
     {
         
     }
 
-    //Reports gunshot to the NPCs in radius
+    // Reports gunshot to the NPCs in radius
     private void MakeNoise()
     {
         var allEnemies = Physics.SphereCastAll(this.transform.position, _gunNoiseDistance, transform.forward);
@@ -172,7 +210,7 @@ public class GunScript : MonoBehaviour
         }
     }
 
-    //Throw event called by player script
+    // Throw event called by player script
     public void Throw()
     {
         isHeld = false;
@@ -184,7 +222,7 @@ public class GunScript : MonoBehaviour
         StartCoroutine(WaitForThrow(2f));
     }
 
-    //Called when hit enemy / after 2 seconds of thrown
+    // Called when hit enemy / after 2 seconds of thrown
     private void ResetGun()
     {
         //Additional check here to prevent editor warning as this will get called twice once by trigger, secondly by coroutine if enemy hit
