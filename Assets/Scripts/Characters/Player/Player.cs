@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, ICharacter
 {
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour, ICharacter
     //Script Refs
     private CharacterController _characterController;
     private GunScript _gunScript;
+    
 
     //Start sets up variables
     //May Create HUD at runtime instead of grabbing from scene
@@ -89,8 +91,8 @@ public class Player : MonoBehaviour, ICharacter
     {
         _playerHUD.Pause();
     }
-    
-    
+
+
     //Raycasts from raycast origin and checks for "Interactable" layer, if so pop-up on UI
     private void InteractionRayCast()
     {

@@ -7,11 +7,12 @@ namespace BehaviorDesigner.Runtime.Tasks
     public class FireGun : Action
     {
         [Tooltip("NPC to fire Gun")]
-        public GameObject gameObject;
+        new public SharedGameObject gameObject;
 
         public override TaskStatus OnUpdate()
         {
-            gameObject.GetComponentInChildren<GunScript>().PublicFire();
+            GunScript gun = gameObject.Value.GetComponentInChildren<GunScript>();
+            gun.PublicFire();
             return TaskStatus.Success;
         }
     }

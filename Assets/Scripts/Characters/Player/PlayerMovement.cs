@@ -126,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
             if (_bWallRunning)
             {
                 EndRunCoroutine(0);
+                bCanWallRun = false;
             }
         }
         else
@@ -133,6 +134,11 @@ public class PlayerMovement : MonoBehaviour
             _cameraTransform.localPosition = new Vector3(0, _cameraOffsets[0], 0);
             _colliderGroups[0].gameObject.SetActive(true);
             _colliderGroups[1].gameObject.SetActive(false);
+            bCanWallRun = true;
+            if (_bWallRunning)
+            {
+                EndRunCoroutine(.1f);
+            }
         }
     }
     
@@ -230,26 +236,31 @@ public class PlayerMovement : MonoBehaviour
 
     // Wall Running Check Logic
     // Trigger collision for walls
+    private bool bCanWallRun = true;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 7 && !_bIsGrounded)
+        if (bCanWallRun)
         {
-            _bHasJumped = false;
-            _bWallRunning = true;
-            if (_endRun != null)
+            if (other.gameObject.layer == 7 && !_bIsGrounded)
             {
-                StopCoroutine(_endRun);
-            }
+                _bHasJumped = false;
+                _bWallRunning = true;
+                if (_endRun != null)
+                {
+                    StopCoroutine(_endRun);
+                }
 
-            _wallJumpVelocity = new Vector3(0, 0, 0);
-            _verticalVelocity = new Vector3(0,0,0);
-            _wallMove = _charController.velocity.normalized;
-            _wallMove.y = 0;
-            _wallRunningObject = other;
-        }
-        else if (_bIsGrounded)
-        {
-            EndRunCoroutine(.02f);
+                _wallJumpVelocity = new Vector3(0, 0, 0);
+                _verticalVelocity = new Vector3(0,0,0);
+                _wallMove = _charController.velocity.normalized;
+                _wallMove.y = 0;
+                _wallRunningObject = other;
+            }
+            else if (_bIsGrounded)
+            {
+                EndRunCoroutine(.02f);
+            }
+            
         }
     }
 

@@ -4,14 +4,14 @@ using UnityEngine.AI;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
 {
     [TaskCategory("Unity/NavMeshAgent")]
-    [TaskDescription("Sets the destination of the agent in world-space units using a Target's Transform. Returns Success if the destination is valid.")]
-    public class SetDestinationUsingTransform: Action
+    [TaskDescription("Sets the destination of the agent in world-space units using a Target GameObject. Returns Success if the destination is valid.")]
+    public class SetDestinationUsingGameObject: Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
         [SharedRequired]
         [Tooltip("The NavMeshAgent destination")]
-        public SharedTransform destinationTransform;
+        public SharedGameObject DestinationGameObject;
 
         // cache the navmeshagent component
         private NavMeshAgent navMeshAgent;
@@ -33,9 +33,9 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
                 return TaskStatus.Failure;
             }
             
-            if(navMeshAgent.SetDestination(destinationTransform.Value.position))
+            if(navMeshAgent.SetDestination(DestinationGameObject.Value.transform.position))
             {
-                Debug.Log("Set Destination to " + destinationTransform.Value.position);
+                Debug.Log("Set Destination to " + DestinationGameObject.Value.transform.position);
                 return TaskStatus.Success;
             }
             return TaskStatus.Failure;
@@ -49,7 +49,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
         public override void OnReset()
         {
             targetGameObject = null;
-            destinationTransform = null;
+            DestinationGameObject = null;
         }
     }
 }

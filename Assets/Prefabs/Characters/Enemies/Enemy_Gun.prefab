@@ -1616,7 +1616,7 @@ GameObject:
   - component: {fileID: 4491443008830121658}
   m_Layer: 0
   m_Name: Enemy_Gun
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1793,13 +1793,14 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"SeePlayer","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"MoveLocation","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RemainingDistance","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"SoundLocation","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
+      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"SeePlayer","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"MoveLocation","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RemainingDistance","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"SoundLocation","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"SelfGameObject","IsShared":true,"GameObjectmValue":0}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
         startIndex: 
         dataPosition: 
-        unityObjects: []
+        unityObjects:
+        - {fileID: 2236290561632326258}
         byteData: 
         byteDataArray: 
       Version: 1.7.7
@@ -2055,5 +2056,10 @@ PrefabInstance:
 --- !u!4 &2106475180626490299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4759649956018065981, guid: 53a087b3e03f5ce409228350ccf8a72a, type: 3}
+  m_PrefabInstance: {fileID: 6860697947210916230}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2236290561632326258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4629416760828064756, guid: 53a087b3e03f5ce409228350ccf8a72a, type: 3}
   m_PrefabInstance: {fileID: 6860697947210916230}
   m_PrefabAsset: {fileID: 0}

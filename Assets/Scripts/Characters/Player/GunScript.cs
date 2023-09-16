@@ -50,11 +50,6 @@ public class GunScript : MonoBehaviour
             SetPlayerVariables();
         }
         SetupGun();
-
-        if (_bPlayerGun)
-        {
-            
-        }
     }
 
     //Sets variables used if gun is used by player
@@ -92,7 +87,7 @@ public class GunScript : MonoBehaviour
     // Gun Fire Event used by Player
     public void FireEvent(InputAction.CallbackContext cbContext)
     {
-        if (isHeld)
+        if (isHeld && Time.timeScale>0.1)
         {
             if (cbContext.performed)
             {
@@ -139,7 +134,11 @@ public class GunScript : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (_player != null)
+        if (_player==null)
+        {
+            Debug.Log("Player is null on GunScript UpdateUI Function");
+        }
+        else
         {
             _player.UpdateAmmoUI(_currentAmmo);
         }
@@ -147,9 +146,13 @@ public class GunScript : MonoBehaviour
 
     private void ShootProjectile()
     {
+        if (!_bPlayerGun)
+        {
+            Debug.Log("AI Tried Fire");
+        }
         // Grabs bullet from pool
         GameObject bullet = _bulletPool.GetObjectFromPool();
-        
+
         // Sets transform of bullet active and positioning
         bullet.transform.position = gunBarrel.position;
         bullet.transform.rotation = gunBarrel.rotation;
@@ -164,13 +167,14 @@ public class GunScript : MonoBehaviour
         _audioSource.Play();
         
         // If Infinite Ammo active end function here
-        if(_bInfiniteAmmo)
+        if(_bInfiniteAmmo || !_bPlayerGun)
         {
             return;
         }
 
         // Updates Ammo Counts
         // If all ammo gone then recharge timer is longer
+        
         _currentAmmo--;
 
         if (_currentAmmo <= 0)
@@ -181,14 +185,10 @@ public class GunScript : MonoBehaviour
         {
             _rechargeTimer = _rechargeDelay / 2;
         }
-
-        // If Gun used by player report noise event and update UI
-        if (_bPlayerGun)
-        {
-            MakeNoise();
-            UpdateUI();
+        
+        MakeNoise();
+        UpdateUI();
         }
-    }
 
     // Plays a bad animation / particle or something
     private void FailShoot()

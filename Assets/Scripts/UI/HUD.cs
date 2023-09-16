@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,10 +27,20 @@ public class HUD : MonoBehaviour
     public Button _ButtonResume;
     public Button _ButtonRestart;
     public Button _ButtonQuit;
+    public Button _ButtonPostToLeaderboard;
+
+    [SerializeField] private Leaderboard _leaderboardScript;
 
     private void Start()
     {
         SetupButtonListeners();
+        
+        //PAUSING TO SHOW CURSOR AND ENSURE LEADERBOARD SETUP WORKS
+    }
+
+    private void Awake()
+    {
+        //Pause();
     }
 
     private void SetupButtonListeners()
@@ -37,7 +48,10 @@ public class HUD : MonoBehaviour
         _ButtonResume.onClick.AddListener(ButtonResume);
         _ButtonRestart.onClick.AddListener(ButtonRestart);
         _ButtonQuit.onClick.AddListener(ButtonQuit);
+        
+        _ButtonPostToLeaderboard.onClick.AddListener(ButtonPostLeaderboard);
     }
+
     public void SetupHUD(int maxHP, int maxAmmo)
     {
         //Ammo setup
@@ -84,6 +98,10 @@ public class HUD : MonoBehaviour
     public void ButtonQuit()
     {
         Quit();
+    }
+    private void ButtonPostLeaderboard()
+    {
+        _leaderboardScript.TryToPostScore();
     }
 
     //Function for pausing / resuming scene

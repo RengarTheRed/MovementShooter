@@ -12,13 +12,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityVector3
         public SharedVector3 storeResult;
         [Tooltip("Transform to use as origin")]
         [RequiredField]
-        public GameObject origin;
+        public SharedGameObject origin;
 
         private NavMeshHit hit;
 
         public override TaskStatus OnUpdate()
         {
-            Vector3 newLocation = origin.transform.position + (Random.insideUnitSphere * 15);
+            Vector3 newLocation = origin.Value.transform.position + (Random.insideUnitSphere * 15);
             if (NavMesh.SamplePosition(newLocation, out hit, 1.0f, NavMesh.AllAreas))
             {
                 storeResult.Value = newLocation;
