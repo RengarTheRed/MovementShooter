@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using BehaviorDesigner.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,6 +34,12 @@ public class Player : MonoBehaviour, ICharacter
     //May Create HUD at runtime instead of grabbing from scene
     private void Start()
     {
+        SetupPlayerVariables();
+        ReportPlayerToBlackboard();
+    }
+
+    private void SetupPlayerVariables()
+    {
         //Once I change to make HUD at runtime I could also edit the prefab and pre-set the other variables too
         _raycastOrigin = gameObject.GetComponentInChildren<Camera>().transform;
         _playerHUD = FindFirstObjectByType<HUD>();
@@ -48,6 +55,13 @@ public class Player : MonoBehaviour, ICharacter
         _gunScript = GetComponentInChildren<GunScript>();
     }
     
+    private void ReportPlayerToBlackboard()
+    {
+        SharedGameObject selfGameObject = new SharedGameObject();
+        selfGameObject.Value = gameObject;
+        GlobalVariables.Instance.SetVariable("PlayerGameObject", selfGameObject);
+    }
+
     //Update Checks Input & Interaction
     private void Update()
     {

@@ -15398,11 +15398,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &467834918 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9098718179154732545, guid: b5fd1ecd0a0492a4cbaf473913f946d5, type: 3}
-  m_PrefabInstance: {fileID: 652919782}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &471476410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20642,7 +20637,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 611327129070638069, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
   m_PrefabInstance: {fileID: 268506834445429057}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &656111294
+--- !u!114 &656111286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20663,15 +20658,14 @@ MonoBehaviour:
   resetValuesOnRestart: 0
   externalBehavior: {fileID: 11400000, guid: 452cbb61e8f0655409048ca25cc8e069, type: 2}
   mBehaviorSource:
-    behaviorName: Melee Enemy
+    behaviorName: Behavior
     behaviorDescription: 
     mTaskData:
       types: []
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"SeePlayer","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"MoveLocation","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RemainingDistance","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"SoundLocation","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"SelfGameObject","IsShared":true,"Tooltip":"Self
-        Object"}]}'
+      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"SelfGameObject","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"SeePlayer","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HearSound","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RemainingDistance","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"MoveLocation","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"SoundLocation","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -69585,18 +69579,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 489889854639257277, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
+      propertyPath: _bTree
+      value: 
+      objectReference: {fileID: 656111286}
     - target: {fileID: 611327129070638069, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
       propertyPath: m_Name
       value: Enemy_Melee
       objectReference: {fileID: 0}
-    - target: {fileID: 611327129070638069, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 677093266624580232, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
-      propertyPath: 'mBehaviorSource.mTaskData.fieldSerializationData.unityObjects.Array.data[1]'
-      value: 
-      objectReference: {fileID: 467834918}
     - target: {fileID: 2276468108875188304, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 77.69
@@ -69637,15 +69627,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 677093266624580232, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 769298790479516547, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 611327129070638069, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 656111294}
+      addedObject: {fileID: 656111286}
   m_SourcePrefab: {fileID: 100100000, guid: fda9423ea83f8bd499064683b78aad9a, type: 3}
 --- !u!1001 &365299247448843433
 PrefabInstance:
@@ -70803,7 +70791,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4491443008830121658, guid: 05665caf3e5c8e24bb35ef98b2346707, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

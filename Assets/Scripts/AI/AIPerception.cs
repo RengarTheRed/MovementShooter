@@ -25,19 +25,31 @@ public class AIPerception : MonoBehaviour
     public LayerMask blockingLayers;
     public Transform perceptionOrigin;
 
-    public bool _bSeePlayer = false;
-    public bool _bIsMoving = false;
-    public bool _bHearSound = false;
-
     //Clear Timer
     private float clearTimer = 3;
+    
+    // Behavior Tree
+    [SerializeField] private BehaviorTree _bTree;
 
     private void Start()
     {
         scanInterval = 1 / scanFrequency;
+        SetupBlackboardVariables();
+    }
+
+    private void SetupBlackboardVariables()
+    {
+        SharedGameObject selfRef = new SharedGameObject();
+        selfRef.Value = gameObject;
+        _bTree.SetVariable("SelfGameObject", selfRef);
     }
 
     private void Update()
+    {
+        PerceptionTick();
+    }
+
+    private void PerceptionTick()
     {
         scanTimer -= Time.deltaTime;
         if (scanTimer < 0)
@@ -57,7 +69,7 @@ public class AIPerception : MonoBehaviour
             if (IsInSight(obj))
             {
                 _objectsHit.Add(obj);
-                ReportPlayerSighting(obj);
+                ReportBoolToBlackboard("SeePlayer", true);
             }
             else
             {
@@ -65,9 +77,8 @@ public class AIPerception : MonoBehaviour
             }
         }
     }
-
-    // ReSharper disable Unity.PerformanceAnalysis
-    public bool IsInSight(GameObject obj)
+    
+    private bool IsInSight(GameObject obj)
     {
         Vector3 origin = perceptionOrigin.position;
         Vector3 dest = obj.transform.position;
@@ -188,12 +199,15 @@ public class AIPerception : MonoBehaviour
         _mesh = CreateWedgeMesh();
         scanInterval = 1 / scanFrequency;
     }
+    
+    // Sets Blackboard variable for Booleans (Sight, Sound)
 
-    //Sets blackboard variables for see player
-    private void ReportPlayerSighting(GameObject obj)
+    private void ReportBoolToBlackboard(string varName, bool varValue)
     {
-        Debug.Log(("Player has been sighted"));
-        _bSeePlayer = true;
+        SharedBool vBool = new SharedBool();
+        vBool.Value = varValue;
+        _bTree.SetVariable(varName, vBool);
+        
     }
 
     //Sets blackboard variables for noise report
@@ -202,18 +216,14 @@ public class AIPerception : MonoBehaviour
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (agent.CalculatePath(soundLocation, agent.path))
         {
-            
-        }
-        else
-        {
-            Debug.Log("Can't get path to sound");
+            ReportBoolToBlackboard("HearSound", true);
         }
     }
 
     private IEnumerator ClearSight(float duration)
     {
         yield return new WaitForSeconds(duration);
-        
+        ReportBoolToBlackboard("SeePlayer", false);
     }
 
     private void OnDrawGizmos()
