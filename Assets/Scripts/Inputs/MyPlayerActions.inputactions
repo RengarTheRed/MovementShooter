@@ -2,7 +2,7 @@
     "name": "MyPlayerActions",
     "maps": [
         {
-            "name": "Player",
+            "name": "Game",
             "id": "79491aef-94a2-4d26-9b34-640ab4339236",
             "actions": [
                 {

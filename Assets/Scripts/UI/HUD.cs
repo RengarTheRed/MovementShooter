@@ -34,13 +34,6 @@ public class HUD : MonoBehaviour
     private void Start()
     {
         SetupButtonListeners();
-        
-        //PAUSING TO SHOW CURSOR AND ENSURE LEADERBOARD SETUP WORKS
-    }
-
-    private void Awake()
-    {
-        //Pause();
     }
 
     private void SetupButtonListeners()

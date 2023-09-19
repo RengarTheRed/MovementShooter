@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _inputFieldDisplayName;
-    [SerializeField] InputActionMap _playerInput;
+    [SerializeField] private PlayerInput _playerInput;
 
     private string _usernameString;
     private int _playerTime=0;
@@ -19,13 +19,42 @@ public class Leaderboard : MonoBehaviour
     // Disables / Enables Player Input on Show
     private void OnEnable()
     {
-        _playerInput.Disable();
         _usernameString = SystemInfo.deviceUniqueIdentifier.Substring(0,20);
+
+        if (_playerInput == null)
+        {
+            Debug.Log("Can't get playerinput on the Leaderboard script");
+            return;
+        }
+
+        _playerInput.SwitchCurrentActionMap("UI");
+        EnableCursor(true);
+    }
+
+    private void EnableCursor(bool toShow)
+    {
+        if (toShow)
+        {
+            Cursor.visible = true;
+            Debug.Log("Cursor is visible");
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void OnDisable()
     {
-        _playerInput.Enable();
+        if (_playerInput == null)
+        {
+            Debug.Log("Can't get playerinput on the Leaderboard script");
+            return;
+        }
+        _playerInput.SwitchCurrentActionMap("Game");
+        EnableCursor(false);
     }
 
     public void TryToPostScore()

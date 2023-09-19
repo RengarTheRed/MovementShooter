@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         // find the "move" action, and keep the reference to it, for use in Update
-        _moveAction = actions.FindActionMap("Player").FindAction("Move");
+        _moveAction = actions.FindActionMap("Game").FindAction("Move");
     }
 
     // Check if player is colliding with wall/floor then check movement input and apply
