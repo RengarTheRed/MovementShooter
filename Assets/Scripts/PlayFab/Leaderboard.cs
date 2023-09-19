@@ -19,6 +19,12 @@ public class Leaderboard : MonoBehaviour
     // Disables / Enables Player Input on Show
     private void OnEnable()
     {
+        //SetupPanel();
+        StartCoroutine(StartDelay());
+    }
+
+    private void SetupPanel()
+    {
         _usernameString = SystemInfo.deviceUniqueIdentifier.Substring(0,20);
 
         if (_playerInput == null)
@@ -29,7 +35,32 @@ public class Leaderboard : MonoBehaviour
 
         _playerInput.SwitchCurrentActionMap("UI");
         EnableCursor(true);
+        
+        //Registers User Account, if already exists good otherwise creates one
+        RegisterPlayer();
     }
+
+    // Gets account info to preset the display name box
+    private void GetAccountInfo()
+    {
+        var request = new GetAccountInfoRequest()
+        {
+            Username = _usernameString
+        };
+        
+        PlayFabClientAPI.GetAccountInfo(request, AccountInfoSuccess, AccountInfoFailed);
+    }
+
+    private void AccountInfoSuccess(GetAccountInfoResult obj)
+    {
+        _inputFieldDisplayName.SetTextWithoutNotify(obj.AccountInfo.TitleInfo.DisplayName);
+    }
+    
+    private void AccountInfoFailed(PlayFabError obj)
+    {
+        Debug.Log("Failed to get account info");
+    }
+
 
     private void EnableCursor(bool toShow)
     {
@@ -62,18 +93,32 @@ public class Leaderboard : MonoBehaviour
         if (_inputFieldDisplayName.text.Length > 0)
         {
             Debug.Log(_inputFieldDisplayName.text);
-            RegisterPlayer(_inputFieldDisplayName.text);
-            LoginPlayer();
+            var request = new UpdateUserTitleDisplayNameRequest()
+            {
+                DisplayName = _inputFieldDisplayName.text
+            };
+            PlayFabClientAPI.UpdateUserTitleDisplayName(request, UpdateUserTitleSuccess, UpdateUserTitleFailed);
         }
     }
 
-    private void RegisterPlayer(string displayName)
+
+    private void UpdateUserTitleSuccess(UpdateUserTitleDisplayNameResult obj)
+    {
+    }
+    private void UpdateUserTitleFailed(PlayFabError obj)
+    {
+        Debug.Log("Failed to update user display name "+ obj.ErrorMessage);
+    }
+
+
+
+    private void RegisterPlayer()
     {
         Debug.Log(_usernameString);
         var request = new RegisterPlayFabUserRequest()
         {
             TitleId = PlayFabSettings.TitleId,
-            DisplayName = _inputFieldDisplayName.text,
+            //DisplayName = _inputFieldDisplayName.text,
             Password = "Password",
             RequireBothUsernameAndEmail = false,
             Username = _usernameString
@@ -81,19 +126,15 @@ public class Leaderboard : MonoBehaviour
         
         PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterSuccess, OnRegisterFailure);
     }
-
-    private void GetAccount()
-    {
-        
-    }
     private void OnRegisterSuccess(RegisterPlayFabUserResult obj)
     {
-        Debug.Log("Register user successfully");
+        //Debug.Log("Register user successfully");
+        LoginPlayer();
     }
-    
     private void OnRegisterFailure(PlayFabError obj)
     {
-        Debug.Log("Register Failed");
+        Debug.Log("Register Failed " +obj.ErrorMessage);
+        LoginPlayer();
     }
 
 
@@ -109,18 +150,16 @@ public class Leaderboard : MonoBehaviour
         };
         PlayFabClientAPI.LoginWithPlayFab(request, OnLoginSuccess, OnLoginFailure);
     }
-
     private void OnLoginSuccess(LoginResult obj)
     {
         Debug.Log("Player logged in Successfully");
-        PostLeaderBoardTime();
+        GetAccountInfo();
     }
-    
     private void OnLoginFailure(PlayFabError obj)
     {
-        Debug.Log("Failed login");
-        Debug.Log(obj.Error);
+        Debug.Log("Failed login " + obj.ErrorMessage);
     }
+
 
     
     // Post Time To Leaderboard
@@ -145,7 +184,6 @@ public class Leaderboard : MonoBehaviour
     {
         Debug.Log("Leaderboard Updated Successfully");
     }
-    
     private void UpdateLeaderboardFailed(PlayFabError obj)
     {
         Debug.Log("Failed to Post Time to Leaderboard");
@@ -171,9 +209,15 @@ public class Leaderboard : MonoBehaviour
             Debug.Log(tmp.StatValue);
         }
     }
-
     private void GetLeaderboardFail(PlayFabError obj)
     {
         throw new System.NotImplementedException();
+    }
+
+    //DELETE BEFORE PUBLISH
+    IEnumerator StartDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        SetupPanel();
     }
 }
