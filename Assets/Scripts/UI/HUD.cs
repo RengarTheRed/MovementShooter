@@ -29,7 +29,7 @@ public class HUD : MonoBehaviour
     public Button _ButtonQuit;
     public Button _ButtonPostToLeaderboard;
 
-    [SerializeField] private Leaderboard _leaderboardScript;
+    [SerializeField] private PlayFABUserSetup _playFabUserSetup;
 
     private void Start()
     {
@@ -94,7 +94,7 @@ public class HUD : MonoBehaviour
     }
     private void ButtonPostLeaderboard()
     {
-        _leaderboardScript.TryToPostScore();
+        _playFabUserSetup.TryToPostScore();
     }
 
     //Function for pausing / resuming scene

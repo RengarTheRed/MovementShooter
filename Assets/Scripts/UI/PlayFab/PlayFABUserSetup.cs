@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Leaderboard : MonoBehaviour
+public class PlayFABUserSetup : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _inputFieldDisplayName;
     [SerializeField] private PlayerInput _playerInput;
