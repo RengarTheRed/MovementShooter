@@ -7,19 +7,13 @@ public class Leaderboard : MonoBehaviour
 {
     [SerializeField] private Transform _entryPrefab;
     [SerializeField] private Transform _spawnDestination;
-
-    private int posID = 0;
     
-    private void Awake()
-    {
-        LoadLeaderboard();
-    }
 
-    public void LoadLeaderboard()
+    public void LoadLeaderboard(List<LeaderboardEntry> _toLoad)
     {
-        for (int i = 0; i < 23; i++)
+        for (int i = 0; i < _toLoad.Count; i++)
         {
-            SpawnRow(i+1, "John", 5);
+            SpawnRow(_toLoad[i].GetPosition(), _toLoad[i].GetName(), _toLoad[i].GetScore());
         }
     }
 

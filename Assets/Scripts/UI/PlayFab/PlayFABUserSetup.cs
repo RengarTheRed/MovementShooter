@@ -15,6 +15,12 @@ public class PlayFABUserSetup : MonoBehaviour
 
     private string _usernameString;
     private int _playerTime=0;
+
+    [SerializeField] private Leaderboard _leaderboardScript;
+    private List<LeaderboardEntry> _leaderboardEntries = new List<LeaderboardEntry>();
+
+    [SerializeField] private Transform _VictoryScreen;
+    [SerializeField] private Transform _LeaderboardPanel;
     
     // Disables / Enables Player Input on Show
     private void OnEnable()
@@ -37,8 +43,10 @@ public class PlayFABUserSetup : MonoBehaviour
         EnableCursor(true);
         
         //Registers User Account, if already exists good otherwise creates one
-        RegisterPlayer();
+        //RegisterPlayer();
+        LoginPlayer();
     }
+    
 
     // Gets account info to preset the display name box
     private void GetAccountInfo()
@@ -54,6 +62,8 @@ public class PlayFABUserSetup : MonoBehaviour
     private void AccountInfoSuccess(GetAccountInfoResult obj)
     {
         _inputFieldDisplayName.SetTextWithoutNotify(obj.AccountInfo.TitleInfo.DisplayName);
+        GetLeaderBoard();
+        
     }
     
     private void AccountInfoFailed(PlayFabError obj)
@@ -109,8 +119,7 @@ public class PlayFABUserSetup : MonoBehaviour
     {
         Debug.Log("Failed to update user display name "+ obj.ErrorMessage);
     }
-
-
+    
 
     private void RegisterPlayer()
     {
@@ -192,26 +201,29 @@ public class PlayFABUserSetup : MonoBehaviour
 
 
     // Get Leaderboard
-    void GetLeaderBoard()
+    private void GetLeaderBoard()
     {
-        var request = new GetLeaderboardRequest();
-        request.StatisticName = "Run Timer";
-        request.StartPosition = 0;
+        var request = new GetLeaderboardAroundPlayerRequest()
+        {
+            StatisticName = "Run Timer",
+            MaxResultsCount = 10,
+        };
 
-        PlayFabClientAPI.GetLeaderboard(request, GetLeaderboardSuccess, GetLeaderboardFail);
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, GetLeaderboardSuccess, GetLeaderboardFail);
     }
 
-    private void GetLeaderboardSuccess(GetLeaderboardResult obj)
+    private void GetLeaderboardSuccess(GetLeaderboardAroundPlayerResult obj)
     {
         foreach (var tmp in obj.Leaderboard)
         {
-            Debug.Log(tmp.DisplayName);
-            Debug.Log(tmp.StatValue);
+            LeaderboardEntry var = new LeaderboardEntry(tmp.Position, tmp.StatValue, tmp.DisplayName);
+            _leaderboardEntries.Add(var);
         }
+        _leaderboardScript.LoadLeaderboard(_leaderboardEntries);
     }
     private void GetLeaderboardFail(PlayFabError obj)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Get Leaderboard failed " + obj.ErrorMessage);
     }
 
     //DELETE BEFORE PUBLISH
@@ -220,4 +232,30 @@ public class PlayFABUserSetup : MonoBehaviour
         yield return new WaitForSeconds(1f);
         SetupPanel();
     }
+
 }
+public class LeaderboardEntry
+    {
+        private int position;
+        private string name;
+        private int score;
+
+        public LeaderboardEntry(int tPos, int TScore, string tName)
+        {
+            position = tPos;
+            score = TScore;
+            name = tName;
+        }
+        public int GetPosition()
+        {
+            return position;
+        }
+        public int GetScore()
+        {
+            return score;
+        }
+        public string GetName()
+        {
+            return name;
+        }
+    }
