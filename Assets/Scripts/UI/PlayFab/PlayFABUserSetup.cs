@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.MultiplayerModels;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -14,19 +15,19 @@ public class PlayFABUserSetup : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
 
     private string _usernameString;
-    private int _playerTime=0;
 
     [SerializeField] private Leaderboard _leaderboardScript;
     private List<LeaderboardEntry> _leaderboardEntries = new List<LeaderboardEntry>();
 
     [SerializeField] private Transform _VictoryScreen;
     [SerializeField] private Transform _LeaderboardPanel;
-    
-    // Disables / Enables Player Input on Show
-    private void OnEnable()
+
+
+    private int _playerTime=0;
+    public void PlayFabStartUp(int tmpTime)
     {
-        //SetupPanel();
-        StartCoroutine(StartDelay());
+        _playerTime = tmpTime;
+        SetupPanel();
     }
 
     private void SetupPanel()
@@ -43,8 +44,7 @@ public class PlayFABUserSetup : MonoBehaviour
         EnableCursor(true);
         
         //Registers User Account, if already exists good otherwise creates one
-        //RegisterPlayer();
-        LoginPlayer();
+        RegisterPlayer();
     }
     
 
@@ -62,8 +62,6 @@ public class PlayFABUserSetup : MonoBehaviour
     private void AccountInfoSuccess(GetAccountInfoResult obj)
     {
         _inputFieldDisplayName.SetTextWithoutNotify(obj.AccountInfo.TitleInfo.DisplayName);
-        GetLeaderBoard();
-        
     }
     
     private void AccountInfoFailed(PlayFabError obj)
@@ -102,18 +100,22 @@ public class PlayFABUserSetup : MonoBehaviour
     {
         if (_inputFieldDisplayName.text.Length > 0)
         {
-            Debug.Log(_inputFieldDisplayName.text);
             var request = new UpdateUserTitleDisplayNameRequest()
             {
                 DisplayName = _inputFieldDisplayName.text
             };
             PlayFabClientAPI.UpdateUserTitleDisplayName(request, UpdateUserTitleSuccess, UpdateUserTitleFailed);
         }
+        else
+        {
+            Debug.Log("Please enter a name");
+        }
     }
 
 
     private void UpdateUserTitleSuccess(UpdateUserTitleDisplayNameResult obj)
     {
+        PostLeaderBoardTime();
     }
     private void UpdateUserTitleFailed(PlayFabError obj)
     {
@@ -137,12 +139,10 @@ public class PlayFABUserSetup : MonoBehaviour
     }
     private void OnRegisterSuccess(RegisterPlayFabUserResult obj)
     {
-        //Debug.Log("Register user successfully");
         LoginPlayer();
     }
     private void OnRegisterFailure(PlayFabError obj)
     {
-        Debug.Log("Register Failed " +obj.ErrorMessage);
         LoginPlayer();
     }
 
@@ -161,7 +161,6 @@ public class PlayFABUserSetup : MonoBehaviour
     }
     private void OnLoginSuccess(LoginResult obj)
     {
-        Debug.Log("Player logged in Successfully");
         GetAccountInfo();
     }
     private void OnLoginFailure(PlayFabError obj)
@@ -177,21 +176,21 @@ public class PlayFABUserSetup : MonoBehaviour
     {
         var request = new UpdatePlayerStatisticsRequest()
         {
-            Statistics = new List<StatisticUpdate>
-            {
-                new StatisticUpdate()
-                {
-                    StatisticName = "Run Timer",
-                    Value = _playerTime
-                }
-            }
+            Statistics = new List<StatisticUpdate>()
         };
+        
+        StatisticUpdate tmp = new StatisticUpdate();
+        tmp.StatisticName = "Run Timer";
+        tmp.Value = _playerTime;
+        request.Statistics.Add(tmp);
+        
         PlayFabClientAPI.UpdatePlayerStatistics(request, UpdateLeaderboardSuccess, UpdateLeaderboardFailed);
     }
 
     private void UpdateLeaderboardSuccess(UpdatePlayerStatisticsResult obj)
     {
         Debug.Log("Leaderboard Updated Successfully");
+        GetLeaderBoard();
     }
     private void UpdateLeaderboardFailed(PlayFabError obj)
     {
@@ -220,17 +219,12 @@ public class PlayFABUserSetup : MonoBehaviour
             _leaderboardEntries.Add(var);
         }
         _leaderboardScript.LoadLeaderboard(_leaderboardEntries);
+        _LeaderboardPanel.gameObject.SetActive(true);
+        _VictoryScreen.gameObject.SetActive(false);
     }
     private void GetLeaderboardFail(PlayFabError obj)
     {
         Debug.Log("Get Leaderboard failed " + obj.ErrorMessage);
-    }
-
-    //DELETE BEFORE PUBLISH
-    IEnumerator StartDelay()
-    {
-        yield return new WaitForSeconds(1f);
-        SetupPanel();
     }
 
 }

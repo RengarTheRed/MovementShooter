@@ -67,6 +67,11 @@ public class Player : MonoBehaviour, ICharacter
     {
         InteractionRayCast();
         UpdateTimer();
+
+        if (Input.GetKey(KeyCode.V))
+        {
+            _playerHUD.ShowVictoryScreen((int)_gameTimer);
+        }
     }
 
     private void UpdateTimer()

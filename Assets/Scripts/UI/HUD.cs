@@ -29,8 +29,11 @@ public class HUD : MonoBehaviour
     public Button _ButtonQuit;
     public Button _ButtonPostToLeaderboard;
 
+    // Victory Screen Related
     [SerializeField] private PlayFABUserSetup _playFabUserSetup;
-
+    [SerializeField] private Transform _victoryScreen;
+    [SerializeField] private TMP_Text _victoryText;
+    
     private void Start()
     {
         SetupButtonListeners();
@@ -114,6 +117,20 @@ public class HUD : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             _pausePanel.gameObject.SetActive(true);
         }
+    }
+    
+    // Function called by Player Once GameOver Triggered
+    public void ShowVictoryScreen(int playerTime)
+    {
+        // Pauses Time and unlocks cursor
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
+        // Shows victory Screen and sets time text
+        _victoryScreen.gameObject.SetActive(true);
+        _victoryText.SetText("You have beaten the game in {0} seconds.", playerTime);
+        _playFabUserSetup.PlayFabStartUp(playerTime);
     }
 
     //Restart function, loads currently active scene
