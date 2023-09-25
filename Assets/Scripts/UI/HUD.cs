@@ -76,9 +76,14 @@ public class HUD : MonoBehaviour
         _hpSlider.value = newHP;
     }
 
+    
+    /// <summary>
+    /// TIMER HAS BEEN REMOVED FROM UI
+    /// </summary>
+    /// <param name="newTime"></param>
     public void UpdateTimer(float newTime)
     {
-        _timerText.SetText(newTime.ToString("F0"));
+        //_timerText.SetText(newTime.ToString("F0"));
     }
 
     //UI Button Functions

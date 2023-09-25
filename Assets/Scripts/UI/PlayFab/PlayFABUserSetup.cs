@@ -183,6 +183,7 @@ public class PlayFABUserSetup : MonoBehaviour
         tmp.StatisticName = "Run Timer";
         tmp.Value = _playerTime;
         request.Statistics.Add(tmp);
+        Debug.Log("New player time is " + _playerTime);
         
         PlayFabClientAPI.UpdatePlayerStatistics(request, UpdateLeaderboardSuccess, UpdateLeaderboardFailed);
     }
