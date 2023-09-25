@@ -51,7 +51,14 @@ Code is made purely by me with some inspiration from Tutorials / ChatGPT / Googl
 ### Assets
 - Synty Sci-Fi Space Pack [^2]
 - Behavior Designer [^3]
+- PlayFab Editor Extensions [^4]
+- Courier Prime Font [^5]
+- UI Samples [^6]
+
 
 [^1]: Synty Upgrading Asset tutorial https://www.youtube.com/watch?v=KpTK-OraZ-g
 [^2]: Synty Sci-Fi Space Pack https://syntystore.com/en-gb/products/polygon-sci-fi-space-pack
 [^3]: Behavior Designer https://assetstore.unity.com/packages/tools/visual-scripting/behavior-designer-behavior-trees-for-everyone-15277
+[^4]: PlayFab Editor Extension https://learn.microsoft.com/en-us/gaming/playfab/sdks/unity3d/
+[^5]: Google Fonts page for Courier Prime https://fonts.google.com/specimen/Courier+Prime
+[^6]: UI Samples Unity Asset Store Page https://assetstore.unity.com/packages/essentials/ui-samples-25468
