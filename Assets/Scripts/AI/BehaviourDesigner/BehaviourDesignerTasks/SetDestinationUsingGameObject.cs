@@ -35,7 +35,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
             
             if(navMeshAgent.SetDestination(DestinationGameObject.Value.transform.position))
             {
-                Debug.Log("Set Destination to " + DestinationGameObject.Value.transform.position);
                 return TaskStatus.Success;
             }
             return TaskStatus.Failure;
