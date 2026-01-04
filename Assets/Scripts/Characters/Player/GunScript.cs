@@ -161,7 +161,7 @@ public class GunScript : MonoBehaviour
         
         //Applies force to bullet rigidbody
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.velocity = gunBarrel.forward * 50f;
+        rb.linearVelocity = gunBarrel.forward * 50f;
         
 
         _audioSource.Play();
@@ -205,7 +205,7 @@ public class GunScript : MonoBehaviour
         {
             if (enemy.transform.CompareTag("Enemy"))
             {
-                enemy.transform.GetComponent<AIPerception>().HearNoise(this.transform.position);
+                // enemy.transform.GetComponent<AIPerception>().HearNoise(this.transform.position);
             }
         }
     }
@@ -229,7 +229,7 @@ public class GunScript : MonoBehaviour
         if (!_rigidbody.isKinematic)
         {
             //Clears velocity
-            _rigidbody.velocity = new Vector3(0, 0, 0);
+            _rigidbody.linearVelocity = new Vector3(0, 0, 0);
             _rigidbody.angularVelocity = new Vector3(0, 0, 0);
         }
         

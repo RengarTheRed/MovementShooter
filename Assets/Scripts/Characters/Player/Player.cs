@@ -1,29 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using BehaviorDesigner.Runtime;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, ICharacter
 {
     [Header("Interaction Variables")]
-    public LayerMask _interactableLayer;
-    private RaycastHit hit;
+    public LayerMask interactableLayer;
+    private RaycastHit _hit;
     private Transform _raycastOrigin;
     
     //Checkpoint System Setup
-    private int _CurrentCheckPointID = 0;
+    private int _currentCheckPointID;
     private CheckpointManager _checkpointManager;
 
     //HUD
     private HUD _playerHUD;
     
     [Header("HP")]
-    public int _maxHP = 10;
-    private int _currentHP=10;
-    private bool _bInvincible = false;
-    private float _gameTimer=0f;
+    public int maxHp = 10;
+    private int _currentHp;
+    private bool _bInvincible;
+    private float _gameTimer;
 
     //Script Refs
     private CharacterController _characterController;
@@ -35,7 +31,7 @@ public class Player : MonoBehaviour, ICharacter
     private void Start()
     {
         SetupPlayerVariables();
-        ReportPlayerToBlackboard();
+        // ReportPlayerToBlackboard();
     }
 
     private void SetupPlayerVariables()
@@ -47,20 +43,20 @@ public class Player : MonoBehaviour, ICharacter
         _characterController = GetComponentInChildren<CharacterController>();
 
         //HP SETUP
-        _currentHP = _maxHP;
+        _currentHp = maxHp;
         int maxAmmo = GetComponentInChildren<GunScript>()._maxAmmo;
-        _playerHUD.SetupHUD(_maxHP, maxAmmo);
+        _playerHUD.SetupHUD(maxHp, maxAmmo);
 
         //GRABS GUN COMP
         _gunScript = GetComponentInChildren<GunScript>();
     }
     
-    private void ReportPlayerToBlackboard()
-    {
-        SharedGameObject selfGameObject = new SharedGameObject();
-        selfGameObject.Value = gameObject;
-        GlobalVariables.Instance.SetVariable("PlayerGameObject", selfGameObject);
-    }
+    // private void ReportPlayerToBlackboard()
+    // {
+    //     SharedGameObject selfGameObject = new SharedGameObject();
+    //     selfGameObject.Value = gameObject;
+    //     GlobalVariables.Instance.SetVariable("PlayerGameObject", selfGameObject);
+    // }
 
     //Update Checks Input & Interaction
     private void Update()
@@ -84,16 +80,16 @@ public class Player : MonoBehaviour, ICharacter
     public void LoadCheckPoint()
     {
         _characterController.enabled = false;
-        gameObject.transform.position = _checkpointManager.GetPlayerCheckPoint(_CurrentCheckPointID).position;
+        gameObject.transform.position = _checkpointManager.GetPlayerCheckPoint(_currentCheckPointID).position;
         _characterController.enabled = true;
     }
     
     //Public Functions called by the Player Input Actions, see bindings there.
     public void Interact()
     {
-        if (hit.transform != null)
+        if (_hit.transform != null)
         {
-            hit.transform.GetComponent<IInteractable>().Interact(gameObject);
+            _hit.transform.GetComponent<IInteractable>().Interact(gameObject);
         }
     }
 
@@ -117,9 +113,9 @@ public class Player : MonoBehaviour, ICharacter
     {
         if (_playerHUD)
         {
-            if (Physics.Raycast(_raycastOrigin.position, _raycastOrigin.TransformDirection(Vector3.forward), out hit, 500f, _interactableLayer))
+            if (Physics.Raycast(_raycastOrigin.position, _raycastOrigin.TransformDirection(Vector3.forward), out _hit, 500f, interactableLayer))
             {
-                _playerHUD.UpdateInteractText("Press E to use " + hit.transform.GetComponent<IInteractable>().InteractName);
+                _playerHUD.UpdateInteractText("Press E to use " + _hit.transform.GetComponent<IInteractable>().InteractName);
             }
             else
             {
@@ -134,9 +130,9 @@ public class Player : MonoBehaviour, ICharacter
         _playerHUD.UpdateAmmo(newCount);
     }
 
-    private void UpdateHPUI()
+    private void UpdateHealthUI()
     {
-        _playerHUD.UpdateHP(_currentHP);
+        _playerHUD.UpdateHP(_currentHp);
     }
 
 
@@ -145,11 +141,11 @@ public class Player : MonoBehaviour, ICharacter
     {
         if(!_bInvincible)
         {
-            _currentHP -= damage;
-            UpdateHPUI();
+            _currentHp -= damage;
+            UpdateHealthUI();
         
             //Call Death
-            if (_currentHP < 0)
+            if (_currentHp < 0)
             {
                 Death();
             }
@@ -159,15 +155,15 @@ public class Player : MonoBehaviour, ICharacter
     //Heal Function maxes at maxHP
     public void Heal(int heal)
     {
-        if (_currentHP + heal <= _maxHP)
+        if (_currentHp + heal <= maxHp)
         {
-            _currentHP += heal;
+            _currentHp += heal;
         }
         else
         {
-            _currentHP = _maxHP;
+            _currentHp = maxHp;
         }
-        UpdateHPUI();
+        UpdateHealthUI();
     }
 
     public void Invincibility()
@@ -181,7 +177,7 @@ public class Player : MonoBehaviour, ICharacter
         _gunScript.InfiniteAmmo();
     }
 
-    //Function that displays gameover HUD etc
+    //Function that displays game over HUD etc
     private void Death()
     {
         //Display GameOver etc
@@ -190,12 +186,12 @@ public class Player : MonoBehaviour, ICharacter
     //Functions for Updating / Getting Current Checkpoint
     public int GetCheckPoint()
     {
-        return _CurrentCheckPointID;
+        return _currentCheckPointID;
     }
 
     public void SetCheckPoint(int newCheckPointID)
     {
-        _CurrentCheckPointID = newCheckPointID;
+        _currentCheckPointID = newCheckPointID;
     }
     IEnumerator InvincibilityTimer(float duration)
     {

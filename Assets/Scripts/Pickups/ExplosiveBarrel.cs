@@ -15,7 +15,7 @@ class ExplosiveBarrel : Pickup
 
         if(_blownUp==false)
         {
-            if (_rb.velocity.magnitude > 30)
+            if (_rb.linearVelocity.magnitude > 30)
             {
                 _blownUp = true;
                 RaycastHit[] toDamage = Physics.SphereCastAll(this.transform.position, 15f, transform.forward);
